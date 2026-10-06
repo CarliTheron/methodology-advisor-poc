@@ -53,6 +53,13 @@ def test_recommend_markdown_output(capsys):
     assert "| Rank | Methodology | Score |" in out
 
 
+def test_markdown_output_lists_caveats(capsys):
+    args = [*BASE_ARGS]
+    args[args.index("medium")] = "low"  # --maturity low
+    assert cli.main([*args, "--format", "markdown"]) == 0
+    assert "## Caveats" in capsys.readouterr().out
+
+
 def test_recommend_writes_markdown_to_file(tmp_path):
     output = tmp_path / "report.md"
     assert cli.main([*BASE_ARGS, "--format", "markdown", "--output", str(output)]) == 0
