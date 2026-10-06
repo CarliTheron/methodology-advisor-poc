@@ -1,7 +1,7 @@
 import pytest
 
 from advisor.engine import EngineError, recommend
-from advisor.models import Level, ProjectContext, Regulation
+from advisor.models import Level, ProjectContext, Regulation, YesNo
 from advisor.rules import load_rules, parse_rules
 
 
@@ -28,6 +28,7 @@ def test_large_moderately_regulated_team_gets_hybrid(rules):
         regulation=Regulation.MODERATE,
         release_frequency=Level.MEDIUM,
         team_maturity=Level.MEDIUM,
+        distributed_team=YesNo.NO,
     )
     assert recommend(context, rules).best.key == "hybrid"
 
@@ -39,6 +40,7 @@ def test_high_maturity_shifts_towards_devops(startup_context, rules):
         regulation=startup_context.regulation,
         release_frequency=startup_context.release_frequency,
         team_maturity=Level.HIGH,
+        distributed_team=startup_context.distributed_team,
     )
     assert recommend(mature, rules).best.key == "agile_devops"
 
@@ -78,6 +80,7 @@ def test_caveat_is_reported_for_matching_context(rules):
         regulation=Regulation.NONE,
         release_frequency=Level.HIGH,
         team_maturity=Level.LOW,
+        distributed_team=YesNo.NO,
     )
     result = recommend(context, rules)
     assert result.best.key in {"scrum", "kanban", "agile_devops"}
