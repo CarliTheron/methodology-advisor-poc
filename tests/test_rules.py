@@ -11,7 +11,7 @@ def test_load_rules_parses_shipped_file(rules_path):
     rules = load_rules(rules_path)
     assert rules.version == "1.0.0"
     assert set(rules.methodologies) == {"plan_driven", "scrum", "kanban", "agile_devops", "hybrid"}
-    assert len(rules.factors) == 5
+    assert len(rules.factors) == 6
     assert rules.caveats
 
 
@@ -59,7 +59,7 @@ def test_weights_must_be_bounded_integers(rules_data, bad_weight):
 
 def test_new_factor_requires_weights_for_every_methodology(rules_data):
     """A requirement change that adds a factor must be completed for all methodologies."""
-    rules_data["factors"]["distributed_team"] = ["no", "yes"]
+    rules_data["factors"]["release_automation"] = ["no", "yes"]
     errors = validate_rules(rules_data)
     assert len(errors) == len(rules_data["methodologies"])
 

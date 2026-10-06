@@ -89,10 +89,10 @@ def test_rules_version_is_reported(startup_context, rules):
 
 
 def test_unknown_factor_in_rules_is_rejected(rules_data, startup_context):
-    rules_data["factors"]["distributed_team"] = ["no", "yes"]
+    rules_data["factors"]["release_automation"] = ["no", "yes"]
     for method in rules_data["methodologies"].values():
-        method["weights"]["distributed_team"] = {"no": 0, "yes": 0}
-    with pytest.raises(EngineError, match="distributed_team"):
+        method["weights"]["release_automation"] = {"no": 0, "yes": 0}
+    with pytest.raises(EngineError, match="release_automation"):
         recommend(startup_context, parse_rules(rules_data))
 
 

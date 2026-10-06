@@ -6,7 +6,8 @@
     "team_size": ["small", "medium", "large"],
     "regulation": ["none", "moderate", "strict"],
     "release_frequency": ["low", "medium", "high"],
-    "team_maturity": ["low", "medium", "high"]
+    "team_maturity": ["low", "medium", "high"],
+    "distributed_team": ["no", "yes"]
   },
   "methodologies": {
     "plan_driven": {
@@ -18,7 +19,8 @@
         "team_size": {"small": -1, "medium": 1, "large": 2},
         "regulation": {"none": -1, "moderate": 1, "strict": 3},
         "release_frequency": {"low": 2, "medium": 0, "high": -3},
-        "team_maturity": {"low": 1, "medium": 0, "high": -1}
+        "team_maturity": {"low": 1, "medium": 0, "high": -1},
+        "distributed_team": {"no": 0, "yes": 1}
       }
     },
     "scrum": {
@@ -30,7 +32,8 @@
         "team_size": {"small": 3, "medium": 1, "large": -2},
         "regulation": {"none": 2, "moderate": 0, "strict": -2},
         "release_frequency": {"low": -1, "medium": 2, "high": 1},
-        "team_maturity": {"low": -2, "medium": 1, "high": 2}
+        "team_maturity": {"low": -2, "medium": 1, "high": 2},
+        "distributed_team": {"no": 1, "yes": -1}
       }
     },
     "kanban": {
@@ -42,7 +45,8 @@
         "team_size": {"small": 2, "medium": 1, "large": -1},
         "regulation": {"none": 1, "moderate": 0, "strict": -2},
         "release_frequency": {"low": -1, "medium": 1, "high": 2},
-        "team_maturity": {"low": -1, "medium": 1, "high": 2}
+        "team_maturity": {"low": -1, "medium": 1, "high": 2},
+        "distributed_team": {"no": 0, "yes": 1}
       }
     },
     "agile_devops": {
@@ -54,7 +58,8 @@
         "team_size": {"small": 1, "medium": 2, "large": 1},
         "regulation": {"none": 2, "moderate": 1, "strict": -1},
         "release_frequency": {"low": -3, "medium": 1, "high": 3},
-        "team_maturity": {"low": -3, "medium": 0, "high": 3}
+        "team_maturity": {"low": -3, "medium": 0, "high": 3},
+        "distributed_team": {"no": 0, "yes": 1}
       }
     },
     "hybrid": {
@@ -66,7 +71,8 @@
         "team_size": {"small": -2, "medium": 2, "large": 3},
         "regulation": {"none": -1, "moderate": 2, "strict": 2},
         "release_frequency": {"low": 1, "medium": 2, "high": 0},
-        "team_maturity": {"low": 1, "medium": 1, "high": 0}
+        "team_maturity": {"low": 1, "medium": 1, "high": 0},
+        "distributed_team": {"no": 0, "yes": 1}
       }
     }
   },
@@ -90,6 +96,11 @@
       "when": {"requirement_volatility": "high"},
       "applies_to": ["plan_driven"],
       "message": "High requirement volatility: late changes are costly in a sequential process; add prototyping and iterative testing (Boehm, 2002)."
+    },
+    {
+      "when": {"distributed_team": "yes"},
+      "applies_to": ["scrum"],
+      "message": "Distributed team: invest in strong asynchronous communication and documentation to offset reduced face-to-face coordination (Boehm, 2002)."
     }
   ]
 }
