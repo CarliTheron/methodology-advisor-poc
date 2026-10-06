@@ -56,7 +56,13 @@ def build_parser() -> argparse.ArgumentParser:
         choices=[flag.value for flag in YesNo],
         help="is the team geographically distributed",
     )
-    rec.add_argument("--format", choices=["text", "json"], default="text")
+    rec.add_argument("--format", choices=["text", "json", "markdown"], default="text")
+    rec.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="write the report to this file instead of stdout",
+    )
 
     sub.add_parser("validate-rules", help="validate the rules file (used as a CI gate)")
     return parser
@@ -100,6 +106,32 @@ def format_json(result: Recommendation) -> str:
     )
 
 
+def format_markdown(result: Recommendation) -> str:
+    lines = [f"# Methodology recommendation: {result.best.label}", ""]
+    lines.append(f"**Score:** {result.best.total}  ")
+    lines.append(f"**Rules version:** {result.rules_version}")
+    lines.append("")
+    lines.append("## Ranking")
+    lines.append("")
+    lines.append("| Rank | Methodology | Score |")
+    lines.append("|---|---|---|")
+    for position, score in enumerate(result.ranking, start=1):
+        lines.append(f"| {position} | {score.label} | {score.total} |")
+    lines.append("")
+    lines.append(f"## Factor contributions for {result.best.label}")
+    lines.append("")
+    lines.append("| Factor | Contribution |")
+    lines.append("|---|---|")
+    for factor, weight in result.best.contributions.items():
+        lines.append(f"| {factor} | {weight:+d} |")
+    if result.caveats:
+        lines.append("")
+        lines.append("## Caveats")
+        lines.append("")
+        lines.extend(f"- {message}" for message in result.caveats)
+    return "\n".join(lines) + "\n"
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     rules_path = args.rules or default_rules_path()
@@ -135,5 +167,15 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
 
-    print(format_json(result) if args.format == "json" else format_text(result))
+    if args.format == "json":
+        content = format_json(result)
+    elif args.format == "markdown":
+        content = format_markdown(result)
+    else:
+        content = format_text(result)
+
+    if args.output:
+        args.output.write_text(content, encoding="utf-8")
+    else:
+        print(content)
     return 0

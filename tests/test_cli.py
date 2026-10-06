@@ -45,6 +45,27 @@ def test_text_output_lists_caveats(capsys):
     assert "Caveats:" in capsys.readouterr().out
 
 
+def test_recommend_markdown_output(capsys):
+    assert cli.main([*BASE_ARGS, "--format", "markdown"]) == 0
+    out = capsys.readouterr().out
+    assert out.startswith("# Methodology recommendation:")
+    assert "## Ranking" in out
+    assert "| Rank | Methodology | Score |" in out
+
+
+def test_recommend_writes_markdown_to_file(tmp_path):
+    output = tmp_path / "report.md"
+    assert cli.main([*BASE_ARGS, "--format", "markdown", "--output", str(output)]) == 0
+    content = output.read_text(encoding="utf-8")
+    assert content.startswith("# Methodology recommendation:")
+
+
+def test_recommend_text_output_can_be_written_to_file(tmp_path):
+    output = tmp_path / "report.txt"
+    assert cli.main([*BASE_ARGS, "--output", str(output)]) == 0
+    assert output.read_text(encoding="utf-8").startswith("Recommended: ")
+
+
 def test_validate_rules_ok(capsys):
     assert cli.main(["validate-rules"]) == 0
     assert "Rules OK" in capsys.readouterr().out
