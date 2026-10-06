@@ -166,3 +166,35 @@ def test_evaluate_reports_scenario_errors(tmp_path, capsys):
 def test_evaluate_missing_input_file(tmp_path, capsys):
     assert cli.main(["evaluate", "--input", str(tmp_path / "missing.json")]) == 1
     assert "not found" in capsys.readouterr().err
+
+
+def test_evaluate_reports_engine_error(tmp_path, capsys):
+    from advisor.cli import DEFAULT_RULES
+
+    rules_data = json.loads(DEFAULT_RULES.read_text(encoding="utf-8"))
+    rules_data["factors"]["extra_factor"] = ["a", "b"]
+    for method in rules_data["methodologies"].values():
+        method["weights"]["extra_factor"] = {"a": 0, "b": 0}
+    bad_rules = tmp_path / "rules.json"
+    bad_rules.write_text(json.dumps(rules_data), encoding="utf-8")
+
+    scenarios = tmp_path / "scenarios.json"
+    scenarios.write_text(
+        json.dumps(
+            [
+                {
+                    "requirement_volatility": "high",
+                    "team_size": 6,
+                    "regulation": "none",
+                    "release_frequency": "high",
+                    "team_maturity": "medium",
+                    "distributed_team": "yes",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    assert cli.main(["--rules", str(bad_rules), "evaluate", "--input", str(scenarios)]) == 1
+    err = capsys.readouterr().err
+    assert "Error:" in err
+    assert "extra_factor" in err
