@@ -27,7 +27,7 @@ Recommend a methodology:
 
 ```bash
 advisor recommend --volatility high --team-size 6 --regulation none \
-    --release-frequency high --maturity medium
+    --release-frequency high --maturity medium --distributed-team no
 ```
 
 ```
@@ -48,6 +48,8 @@ Other commands:
 advisor recommend ... --format json     # machine-readable output
 advisor validate-rules                  # check config/rules.json (CI gate)
 advisor --rules other.json recommend .. # use another rules file
+advisor evaluate --input scenarios.json          # batch evaluation, one result per scenario
+advisor recommend ... --format markdown --output report.md   # write a Markdown report
 ```
 
 Without installing, use `PYTHONPATH=src python -m advisor ...` instead of `advisor`.
@@ -64,6 +66,7 @@ Each methodology in `config/rules.json` has a weight from -3 (strongly unsuited)
 | Regulation | none, moderate, strict |
 | Release frequency | low, medium, high |
 | Team agile maturity | low, medium, high |
+| Distributed team | no, yes |
 
 A methodology's score is the sum of its weights for the project's factor values. The
 output shows every factor's contribution and any caveats, so the reasoning can be
