@@ -1,6 +1,6 @@
 import pytest
 
-from advisor.models import ContextError, Level, ProjectContext, Regulation
+from advisor.models import ContextError, Level, ProjectContext, Regulation, YesNo
 
 
 def make(team_size=5, **overrides):
@@ -10,6 +10,7 @@ def make(team_size=5, **overrides):
         "regulation": Regulation.NONE,
         "release_frequency": Level.MEDIUM,
         "team_maturity": Level.MEDIUM,
+        "distributed_team": YesNo.NO,
     }
     values.update(overrides)
     return ProjectContext(**values)
@@ -43,7 +44,13 @@ def test_factor_values_cover_all_factors():
         "regulation": "none",
         "release_frequency": "medium",
         "team_maturity": "medium",
+        "distributed_team": "no",
     }
+
+
+@pytest.mark.parametrize(("flag", "value"), [(YesNo.NO, "no"), (YesNo.YES, "yes")])
+def test_distributed_team_factor_value(flag, value):
+    assert make(distributed_team=flag).factor_values()["distributed_team"] == value
 
 
 def test_from_dict_builds_context():
@@ -54,6 +61,7 @@ def test_from_dict_builds_context():
             "regulation": "strict",
             "release_frequency": "low",
             "team_maturity": "high",
+            "distributed_team": "yes",
         }
     )
     assert context.regulation is Regulation.STRICT
@@ -68,6 +76,7 @@ def test_from_dict_reports_missing_fields():
                 "regulation": "none",
                 "release_frequency": "low",
                 "team_maturity": "high",
+                "distributed_team": "yes",
             }
         )
 
@@ -81,6 +90,7 @@ def test_from_dict_rejects_unknown_level():
                 "regulation": "none",
                 "release_frequency": "low",
                 "team_maturity": "high",
+                "distributed_team": "yes",
             }
         )
 
@@ -94,5 +104,20 @@ def test_from_dict_preserves_context_error():
                 "regulation": "none",
                 "release_frequency": "low",
                 "team_maturity": "high",
+                "distributed_team": "yes",
+            }
+        )
+
+
+def test_from_dict_rejects_unknown_distributed_team_value():
+    with pytest.raises(ContextError):
+        ProjectContext.from_dict(
+            {
+                "requirement_volatility": "high",
+                "team_size": 4,
+                "regulation": "none",
+                "release_frequency": "low",
+                "team_maturity": "high",
+                "distributed_team": "maybe",
             }
         )

@@ -27,6 +27,13 @@ class Regulation(str, Enum):
     STRICT = "strict"
 
 
+class YesNo(str, Enum):
+    """Binary yes/no level, used for the distributed_team factor."""
+
+    NO = "no"
+    YES = "yes"
+
+
 # Team size bands. Upper bounds are inclusive.
 SMALL_TEAM_MAX = 9
 MEDIUM_TEAM_MAX = 50
@@ -46,6 +53,7 @@ class ProjectContext:
     regulation: Regulation
     release_frequency: Level
     team_maturity: Level
+    distributed_team: YesNo
 
     def __post_init__(self) -> None:
         if isinstance(self.team_size, bool) or not isinstance(self.team_size, int):
@@ -70,6 +78,7 @@ class ProjectContext:
             "regulation": self.regulation.value,
             "release_frequency": self.release_frequency.value,
             "team_maturity": self.team_maturity.value,
+            "distributed_team": self.distributed_team.value,
         }
 
     @classmethod
@@ -81,6 +90,7 @@ class ProjectContext:
             "regulation",
             "release_frequency",
             "team_maturity",
+            "distributed_team",
         )
         missing = [key for key in required if key not in data]
         if missing:
@@ -92,6 +102,7 @@ class ProjectContext:
                 regulation=Regulation(data["regulation"]),
                 release_frequency=Level(data["release_frequency"]),
                 team_maturity=Level(data["team_maturity"]),
+                distributed_team=YesNo(data["distributed_team"]),
             )
         except ValueError as exc:
             if isinstance(exc, ContextError):
