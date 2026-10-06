@@ -18,7 +18,7 @@ from pathlib import Path
 
 from advisor import __version__
 from advisor.engine import EngineError, Recommendation, recommend
-from advisor.models import ContextError, Level, ProjectContext, Regulation
+from advisor.models import ContextError, Level, ProjectContext, Regulation, YesNo
 from advisor.rules import RulesError, load_rules
 
 DEFAULT_RULES = Path(__file__).resolve().parents[2] / "config" / "rules.json"
@@ -50,6 +50,12 @@ def build_parser() -> argparse.ArgumentParser:
     rec.add_argument("--regulation", required=True, choices=[reg.value for reg in Regulation])
     rec.add_argument("--release-frequency", required=True, choices=levels)
     rec.add_argument("--maturity", required=True, choices=levels, help="team agile maturity")
+    rec.add_argument(
+        "--distributed-team",
+        required=True,
+        choices=[flag.value for flag in YesNo],
+        help="is the team geographically distributed",
+    )
     rec.add_argument("--format", choices=["text", "json"], default="text")
 
     sub.add_parser("validate-rules", help="validate the rules file (used as a CI gate)")
@@ -121,6 +127,7 @@ def main(argv: list[str] | None = None) -> int:
                 "regulation": args.regulation,
                 "release_frequency": args.release_frequency,
                 "team_maturity": args.maturity,
+                "distributed_team": args.distributed_team,
             }
         )
         result = recommend(context, rules)

@@ -18,6 +18,8 @@ BASE_ARGS = [
     "high",
     "--maturity",
     "medium",
+    "--distributed-team",
+    "no",
 ]
 
 
