@@ -11,8 +11,8 @@
     {
       "id": 2,
       "goal": "Batch evaluation; absorb requirement changes C1 and C2",
-      "start": null,
-      "end": null,
+      "start": "2026-10-06",
+      "end": "2026-10-13",
       "planned": ["US-07", "C1", "C2"],
       "completed": []
     },

@@ -26,9 +26,9 @@ commit the change, so the board history is preserved in git.
 
 | ID | User story / change | Acceptance criteria | Status |
 |---|---|---|---|
-| US-07 | As a researcher, I want to evaluate a batch of project scenarios from a file so that I can compare the framework's output across cases. | `evaluate --input scenarios.json` prints one recommendation per scenario. | todo |
-| C1 | **Requirement change (introduced mid-sprint):** add a sixth factor, *distributed team* (yes/no). | Factor added to rules, model and CLI; rules validation forces weights for every methodology; tests updated. | todo |
-| C2 | **Requirement change (introduced mid-sprint):** export the recommendation as a Markdown report. | `--format markdown` and `--output FILE`; report includes ranking, contributions and caveats. | todo |
+| US-07 | As a researcher, I want to evaluate a batch of project scenarios from a file so that I can compare the framework's output across cases. | `evaluate --input scenarios.json` prints one recommendation per scenario. | in progress |
+| C1 | **Requirement change (introduced mid-sprint):** add a sixth factor, *distributed team* (yes/no). | Factor added to rules, model and CLI; rules validation forces weights for every methodology; tests updated. | in progress |
+| C2 | **Requirement change (introduced mid-sprint):** export the recommendation as a Markdown report. | `--format markdown` and `--output FILE`; report includes ranking, contributions and caveats. | in progress |
 
 ## Sprint 3: calibration and hardening
 
