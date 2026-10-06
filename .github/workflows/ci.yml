@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  quality-gates:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install development dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: "Gate 1: lint and import order"
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: "Gate 2: validate selection rules"
+        run: python -m advisor validate-rules
+
+      - name: "Gate 3: tests with coverage threshold (90%)"
+        run: pytest --cov --cov-fail-under=90 --cov-report=term-missing
+
+      - name: "Smoke test: run a recommendation"
+        run: >
+          python -m advisor recommend --volatility high --team-size 6
+          --regulation none --release-frequency high --maturity medium

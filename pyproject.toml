@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "methodology-advisor"
+version = "0.1.0"
+description = "Context-based software development methodology advisor (DST481 proof of concept)"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+advisor = "advisor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "tools"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["advisor"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["advisor", "collect_metrics"]

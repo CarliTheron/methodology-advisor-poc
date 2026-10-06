@@ -1,0 +1,95 @@
+{
+  "version": "1.0.0",
+  "note": "Initial encoding of the context-based selection framework (report Section 4.6). Weights range from -3 (strongly unsuited) to +3 (strongly suited) and must be recalibrated against the findings in Chapter 4 before the final evaluation.",
+  "factors": {
+    "requirement_volatility": ["low", "medium", "high"],
+    "team_size": ["small", "medium", "large"],
+    "regulation": ["none", "moderate", "strict"],
+    "release_frequency": ["low", "medium", "high"],
+    "team_maturity": ["low", "medium", "high"]
+  },
+  "methodologies": {
+    "plan_driven": {
+      "label": "Plan-driven (Waterfall / V-Model)",
+      "rationale": "Home ground: stable requirements, larger teams, high assurance and documentation needs.",
+      "sources": ["Boehm2002"],
+      "weights": {
+        "requirement_volatility": {"low": 3, "medium": 0, "high": -3},
+        "team_size": {"small": -1, "medium": 1, "large": 2},
+        "regulation": {"none": -1, "moderate": 1, "strict": 3},
+        "release_frequency": {"low": 2, "medium": 0, "high": -3},
+        "team_maturity": {"low": 1, "medium": 0, "high": -1}
+      }
+    },
+    "scrum": {
+      "label": "Scrum",
+      "rationale": "Iterative delivery for small teams facing changing requirements.",
+      "sources": ["Boehm2002", "SchwaberSutherland2020"],
+      "weights": {
+        "requirement_volatility": {"low": -1, "medium": 2, "high": 3},
+        "team_size": {"small": 3, "medium": 1, "large": -2},
+        "regulation": {"none": 2, "moderate": 0, "strict": -2},
+        "release_frequency": {"low": -1, "medium": 2, "high": 1},
+        "team_maturity": {"low": -2, "medium": 1, "high": 2}
+      }
+    },
+    "kanban": {
+      "label": "Kanban",
+      "rationale": "Continuous flow with work-in-progress limits; suited to unpredictable, steady demand.",
+      "sources": ["Anderson2010"],
+      "weights": {
+        "requirement_volatility": {"low": 0, "medium": 1, "high": 2},
+        "team_size": {"small": 2, "medium": 1, "large": -1},
+        "regulation": {"none": 1, "moderate": 0, "strict": -2},
+        "release_frequency": {"low": -1, "medium": 1, "high": 2},
+        "team_maturity": {"low": -1, "medium": 1, "high": 2}
+      }
+    },
+    "agile_devops": {
+      "label": "Agile with DevOps (CI/CD)",
+      "rationale": "Frequent releases with automated build, test and deployment; demands technical maturity.",
+      "sources": ["Forsgren2018", "HumbleFarley2010"],
+      "weights": {
+        "requirement_volatility": {"low": -1, "medium": 1, "high": 3},
+        "team_size": {"small": 1, "medium": 2, "large": 1},
+        "regulation": {"none": 2, "moderate": 1, "strict": -1},
+        "release_frequency": {"low": -3, "medium": 1, "high": 3},
+        "team_maturity": {"low": -3, "medium": 0, "high": 3}
+      }
+    },
+    "hybrid": {
+      "label": "Defined hybrid (phase gates + iterations)",
+      "rationale": "Plan-driven governance with iterative delivery inside phases; suited to larger or regulated settings.",
+      "sources": ["Kuhrmann2017", "Dikert2016"],
+      "weights": {
+        "requirement_volatility": {"low": 1, "medium": 2, "high": 1},
+        "team_size": {"small": -2, "medium": 2, "large": 3},
+        "regulation": {"none": -1, "moderate": 2, "strict": 2},
+        "release_frequency": {"low": 1, "medium": 2, "high": 0},
+        "team_maturity": {"low": 1, "medium": 1, "high": 0}
+      }
+    }
+  },
+  "caveats": [
+    {
+      "when": {"team_maturity": "low"},
+      "applies_to": ["scrum", "kanban", "agile_devops"],
+      "message": "Team agile maturity is low: plan training and coaching before and during adoption (Dikert et al., 2016)."
+    },
+    {
+      "when": {"regulation": "strict"},
+      "applies_to": ["scrum", "kanban", "agile_devops"],
+      "message": "Strict regulation: add explicit documentation and approval gates to the iterative process."
+    },
+    {
+      "when": {"team_size": "large"},
+      "applies_to": ["scrum", "kanban"],
+      "message": "Large team: a single-team framework needs added cross-team coordination (Dikert et al., 2016; Edison et al., 2022)."
+    },
+    {
+      "when": {"requirement_volatility": "high"},
+      "applies_to": ["plan_driven"],
+      "message": "High requirement volatility: late changes are costly in a sequential process; add prototyping and iterative testing (Boehm, 2002)."
+    }
+  ]
+}
