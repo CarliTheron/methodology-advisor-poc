@@ -108,3 +108,61 @@ def test_module_entry_point(monkeypatch, capsys):
     with pytest.raises(SystemExit) as info:
         runpy.run_module("advisor", run_name="__main__")
     assert info.value.code == 0
+
+
+def test_evaluate_batch_text_output(tmp_path, capsys):
+    scenarios = tmp_path / "scenarios.json"
+    scenarios.write_text(
+        json.dumps(
+            [
+                {
+                    "name": "Startup",
+                    "requirement_volatility": "high",
+                    "team_size": 6,
+                    "regulation": "none",
+                    "release_frequency": "high",
+                    "team_maturity": "medium",
+                    "distributed_team": "yes",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    assert cli.main(["evaluate", "--input", str(scenarios)]) == 0
+    out = capsys.readouterr().out
+    assert "=== Startup ===" in out
+    assert "Recommended:" in out
+
+
+def test_evaluate_batch_json_output(tmp_path, capsys):
+    scenarios = tmp_path / "scenarios.json"
+    scenarios.write_text(
+        json.dumps(
+            [
+                {
+                    "requirement_volatility": "low",
+                    "team_size": 80,
+                    "regulation": "strict",
+                    "release_frequency": "low",
+                    "team_maturity": "low",
+                    "distributed_team": "no",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    assert cli.main(["evaluate", "--input", str(scenarios), "--format", "json"]) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload[0]["recommended"] == "plan_driven"
+
+
+def test_evaluate_reports_scenario_errors(tmp_path, capsys):
+    scenarios = tmp_path / "scenarios.json"
+    scenarios.write_text(json.dumps([{"name": "Broken"}]), encoding="utf-8")
+    assert cli.main(["evaluate", "--input", str(scenarios)]) == 0
+    assert "Error:" in capsys.readouterr().out
+
+
+def test_evaluate_missing_input_file(tmp_path, capsys):
+    assert cli.main(["evaluate", "--input", str(tmp_path / "missing.json")]) == 1
+    assert "not found" in capsys.readouterr().err

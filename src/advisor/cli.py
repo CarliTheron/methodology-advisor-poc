@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 
 from advisor import __version__
+from advisor.batch import ScenarioError, ScenarioResult, evaluate_scenarios, load_scenarios
 from advisor.engine import EngineError, Recommendation, recommend
 from advisor.models import ContextError, Level, ProjectContext, Regulation, YesNo
 from advisor.rules import RulesError, load_rules
@@ -65,6 +66,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     sub.add_parser("validate-rules", help="validate the rules file (used as a CI gate)")
+
+    ev = sub.add_parser("evaluate", help="evaluate a batch of project scenarios from a file")
+    ev.add_argument("--input", required=True, type=Path, help="path to a JSON array of scenarios")
+    ev.add_argument("--format", choices=["text", "json"], default="text")
     return parser
 
 
@@ -132,6 +137,47 @@ def format_markdown(result: Recommendation) -> str:
     return "\n".join(lines) + "\n"
 
 
+def format_batch_text(results: list[ScenarioResult]) -> str:
+    lines = []
+    for result in results:
+        lines.append(f"=== {result.name} ===")
+        if result.error:
+            lines.append(f"  Error: {result.error}")
+        else:
+            lines.append(f"  Recommended: {result.recommendation.best.label}")
+            for position, score in enumerate(result.recommendation.ranking, start=1):
+                lines.append(f"    {position}. {score.label:<40} {score.total:>3}")
+        lines.append("")
+    return "\n".join(lines).rstrip()
+
+
+def format_batch_json(results: list[ScenarioResult]) -> str:
+    return json.dumps(
+        [
+            {
+                "name": result.name,
+                "error": result.error,
+                "recommended": result.recommendation.best.key if result.recommendation else None,
+                "ranking": (
+                    [
+                        {
+                            "key": score.key,
+                            "label": score.label,
+                            "total": score.total,
+                            "contributions": score.contributions,
+                        }
+                        for score in result.recommendation.ranking
+                    ]
+                    if result.recommendation
+                    else []
+                ),
+            }
+            for result in results
+        ],
+        indent=2,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     rules_path = args.rules or default_rules_path()
@@ -149,6 +195,20 @@ def main(argv: list[str] | None = None) -> int:
             f"Rules OK: version {rules.version}, {len(rules.factors)} factors, "
             f"{len(rules.methodologies)} methodologies, {len(rules.caveats)} caveats"
         )
+        return 0
+
+    if args.command == "evaluate":
+        try:
+            scenarios = load_scenarios(args.input)
+        except ScenarioError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 1
+        try:
+            results = evaluate_scenarios(scenarios, rules)
+        except EngineError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 1
+        print(format_batch_json(results) if args.format == "json" else format_batch_text(results))
         return 0
 
     try:
