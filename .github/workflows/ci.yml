@@ -41,3 +41,4 @@ jobs:
         run: >
           python -m advisor recommend --volatility high --team-size 6
           --regulation none --release-frequency high --maturity medium
+          --distributed-team no
