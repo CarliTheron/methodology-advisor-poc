@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "note": "Initial encoding of the context-based selection framework (report Section 4.6). Weights range from -3 (strongly unsuited) to +3 (strongly suited) and must be recalibrated against the findings in Chapter 4 before the final evaluation.",
+  "version": "1.1.0",
+  "note": "Calibrated in Sprint 3 against Chapter 4 findings (Theron, DST481). Weights range from -3 (strongly unsuited) to +3 (strongly suited). Reviewing Sprint 1's initial weights against Chapter 4 Table 4.5 found them already directionally consistent with the evidence for requirement_volatility, team_size, release_frequency and team_maturity, so no weight values were changed; each methodology's rationale and sources now cite the specific findings that support it. The regulation factor rests on conceptual evidence only (Finding 2.2, Boehm 2002), so its weights were deliberately left unchanged rather than strengthened. The distributed_team factor (added in Sprint 2 as requirement change C1) is outside the five factors covered by the Chapter 4 literature review (Figure 2.1) and is not addressed by this calibration.",
   "close_call_margin": 2,
   "factors": {
     "requirement_volatility": ["low", "medium", "high"],
@@ -13,7 +13,7 @@
   "methodologies": {
     "plan_driven": {
       "label": "Plan-driven (Waterfall / V-Model)",
-      "rationale": "Home ground: stable requirements, larger teams, high assurance and documentation needs.",
+      "rationale": "Home ground: stable requirements and strict regulation (Table 4.5; Finding 2.2 -- conceptual evidence only, Boehm 2002).",
       "sources": ["Boehm2002"],
       "weights": {
         "requirement_volatility": {"low": 3, "medium": 0, "high": -3},
@@ -26,8 +26,8 @@
     },
     "scrum": {
       "label": "Scrum",
-      "rationale": "Iterative delivery for small teams facing changing requirements.",
-      "sources": ["Boehm2002", "SchwaberSutherland2020"],
+      "rationale": "Iterative delivery for small teams facing changing requirements (Table 4.5: volatile requirements and small team favour an iterative method; Findings 1.1, 1.2, 2.1).",
+      "sources": ["Boehm2002", "SchwaberSutherland2020", "Serrador2015", "Kuhrmann2017"],
       "weights": {
         "requirement_volatility": {"low": -1, "medium": 2, "high": 3},
         "team_size": {"small": 3, "medium": 1, "large": -2},
@@ -39,8 +39,8 @@
     },
     "kanban": {
       "label": "Kanban",
-      "rationale": "Continuous flow with work-in-progress limits; suited to unpredictable, steady demand.",
-      "sources": ["Anderson2010"],
+      "rationale": "Continuous flow with work-in-progress limits; suited to unpredictable, steady demand (Table 4.5: volatile requirements and small team favour an iterative method -- Scrum or Kanban; Findings 1.1, 2.1).",
+      "sources": ["Anderson2010", "Kuhrmann2017"],
       "weights": {
         "requirement_volatility": {"low": 0, "medium": 1, "high": 2},
         "team_size": {"small": 2, "medium": 1, "large": -1},
@@ -52,7 +52,7 @@
     },
     "agile_devops": {
       "label": "Agile with DevOps (CI/CD)",
-      "rationale": "Frequent releases with automated build, test and deployment; demands technical maturity.",
+      "rationale": "Frequent releases with automated build, test and deployment; demands technical maturity (Table 4.5: frequent releases and a mature team favour Agile with DevOps and delivery measures; Finding 3.2 -- Forsgren et al. 2018).",
       "sources": ["Forsgren2018", "HumbleFarley2010"],
       "weights": {
         "requirement_volatility": {"low": -1, "medium": 1, "high": 3},
@@ -65,8 +65,8 @@
     },
     "hybrid": {
       "label": "Defined hybrid (phase gates + iterations)",
-      "rationale": "Plan-driven governance with iterative delivery inside phases; suited to larger or regulated settings.",
-      "sources": ["Kuhrmann2017", "Dikert2016"],
+      "rationale": "Plan-driven governance with iterative delivery inside phases; suited to larger or regulated settings (Table 4.5: a large or multi-team project favours an explicitly defined hybrid or scaled approach with cross-team coordination designed in; Findings 1.1, 4.1, 4.3).",
+      "sources": ["Kuhrmann2017", "Dikert2016", "Edison2022"],
       "weights": {
         "requirement_volatility": {"low": 1, "medium": 2, "high": 1},
         "team_size": {"small": -2, "medium": 2, "large": 3},
@@ -81,22 +81,22 @@
     {
       "when": {"team_maturity": "low"},
       "applies_to": ["scrum", "kanban", "agile_devops"],
-      "message": "Team agile maturity is low: plan training and coaching before and during adoption (Dikert et al., 2016)."
+      "message": "Team agile maturity is low: plan training and coaching before and during adoption (Dikert et al., 2016; Table 4.5, F2.2/F4.1/F4.3)."
     },
     {
       "when": {"regulation": "strict"},
       "applies_to": ["scrum", "kanban", "agile_devops"],
-      "message": "Strict regulation: add explicit documentation and approval gates to the iterative process."
+      "message": "Strict regulation: add explicit documentation and approval gates to the iterative process. Evidence for this is conceptual only (Boehm, 2002; Table 4.5, F2.2) and has not yet been empirically tested."
     },
     {
       "when": {"team_size": "large"},
       "applies_to": ["scrum", "kanban"],
-      "message": "Large team: a single-team framework needs added cross-team coordination (Dikert et al., 2016; Edison et al., 2022)."
+      "message": "Large team: a single-team framework needs added cross-team coordination (Dikert et al., 2016; Edison et al., 2022; Table 4.5, F4.1)."
     },
     {
       "when": {"requirement_volatility": "high"},
       "applies_to": ["plan_driven"],
-      "message": "High requirement volatility: late changes are costly in a sequential process; add prototyping and iterative testing (Boehm, 2002)."
+      "message": "High requirement volatility: late changes are costly in a sequential process; add prototyping and iterative testing (Boehm, 2002; Table 4.5, F1.1)."
     },
     {
       "when": {"distributed_team": "yes"},

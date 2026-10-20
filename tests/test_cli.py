@@ -28,7 +28,7 @@ def test_recommend_text_output(capsys):
     out = capsys.readouterr().out
     assert out.startswith("Recommended: ")
     assert "Ranking:" in out
-    assert "Rules version: 1.0.0" in out
+    assert "Rules version: 1.1.0" in out
 
 
 def test_recommend_json_output(capsys):
