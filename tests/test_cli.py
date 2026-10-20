@@ -45,6 +45,44 @@ def test_text_output_lists_caveats(capsys):
     assert "Caveats:" in capsys.readouterr().out
 
 
+def test_recommend_text_shows_close_call(capsys):
+    assert cli.main(BASE_ARGS) == 0
+    assert "Close call:" in capsys.readouterr().out
+
+
+def test_recommend_json_includes_close_call(capsys):
+    assert cli.main([*BASE_ARGS, "--format", "json"]) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["close_call"]["is_close_call"] is True
+    assert "agile_devops" in payload["close_call"]["candidates"]
+
+
+def test_recommend_markdown_shows_close_call(capsys):
+    assert cli.main([*BASE_ARGS, "--format", "markdown"]) == 0
+    assert "## Close call" in capsys.readouterr().out
+
+
+def test_recommend_no_close_call_when_clear_winner(capsys):
+    args = [
+        "recommend",
+        "--volatility",
+        "low",
+        "--team-size",
+        "80",
+        "--regulation",
+        "strict",
+        "--release-frequency",
+        "low",
+        "--maturity",
+        "low",
+        "--distributed-team",
+        "no",
+    ]
+    assert cli.main(args) == 0
+    out = capsys.readouterr().out
+    assert "Close call:" not in out
+
+
 def test_recommend_markdown_output(capsys):
     assert cli.main([*BASE_ARGS, "--format", "markdown"]) == 0
     out = capsys.readouterr().out

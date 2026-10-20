@@ -78,6 +78,12 @@ def format_text(result: Recommendation) -> str:
     lines.append("Ranking:")
     for position, score in enumerate(result.ranking, start=1):
         lines.append(f"  {position}. {score.label:<40} {score.total:>3}")
+    if result.is_close_call:
+        names = ", ".join(score.label for score in result.close_call)
+        lines.append("")
+        lines.append(
+            f"Close call: {names} are within {result.close_call_margin} point(s) of each other."
+        )
     lines.append("")
     lines.append(f"Factor contributions for {result.best.label}:")
     for factor, weight in result.best.contributions.items():
@@ -105,6 +111,13 @@ def format_json(result: Recommendation) -> str:
                 }
                 for score in result.ranking
             ],
+            "close_call": {
+                "is_close_call": result.is_close_call,
+                "margin": result.close_call_margin,
+                "candidates": (
+                    [score.key for score in result.close_call] if result.is_close_call else []
+                ),
+            },
             "caveats": list(result.caveats),
         },
         indent=2,
@@ -122,6 +135,12 @@ def format_markdown(result: Recommendation) -> str:
     lines.append("|---|---|---|")
     for position, score in enumerate(result.ranking, start=1):
         lines.append(f"| {position} | {score.label} | {score.total} |")
+    if result.is_close_call:
+        names = ", ".join(score.label for score in result.close_call)
+        lines.append("")
+        lines.append("## Close call")
+        lines.append("")
+        lines.append(f"{names} are within {result.close_call_margin} point(s) of each other.")
     lines.append("")
     lines.append(f"## Factor contributions for {result.best.label}")
     lines.append("")
