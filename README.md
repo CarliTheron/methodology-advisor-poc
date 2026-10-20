@@ -31,15 +31,26 @@ advisor recommend --volatility high --team-size 6 --regulation none \
 ```
 
 ```
-Recommended: Scrum (score 10)
+Recommended: Scrum (score 11)
 
 Ranking:
-  1. Scrum                                     10
+  1. Scrum                                     11
   2. Agile with DevOps (CI/CD)                  9
-  ...
+  3. Kanban                                     8
+  4. Defined hybrid (phase gates + iterations)  -1
+  5. Plan-driven (Waterfall / V-Model)         -8
+
+Close call: Scrum, Agile with DevOps (CI/CD) are within 2 point(s) of each other.
+
 Factor contributions for Scrum:
   requirement_volatility   +3
-  ...
+  team_size                +3
+  regulation               +2
+  release_frequency        +1
+  team_maturity            +1
+  distributed_team         +1
+
+Rules version: 1.1.0
 ```
 
 Other commands:
@@ -57,7 +68,7 @@ Without installing, use `PYTHONPATH=src python -m advisor ...` instead of `advis
 ## How recommendations are made
 
 Each methodology in `config/rules.json` has a weight from -3 (strongly unsuited) to +3
-(strongly suited) for every level of five context factors:
+(strongly suited) for every level of six context factors:
 
 | Factor | Levels |
 |---|---|
@@ -68,10 +79,34 @@ Each methodology in `config/rules.json` has a weight from -3 (strongly unsuited)
 | Team agile maturity | low, medium, high |
 | Distributed team | no, yes |
 
-A methodology's score is the sum of its weights for the project's factor values. The
-output shows every factor's contribution and any caveats, so the reasoning can be
-checked. The weights are an initial encoding of the framework and are recalibrated
-against the report's findings in Sprint 3 (story US-08).
+A methodology's score is the sum of its weights for the project's factor values, so scores
+are an ordinal ranking, not a probability or a percentage -- a score of 11 means "ranked
+ahead of a score of 9 by 2 points," not "11% more suitable." The output shows every
+factor's contribution and any caveats, so the reasoning can be inspected and challenged
+rather than taken on trust.
+
+Each methodology's `rationale` and `sources` in `config/rules.json` cite the specific
+Chapter 4 finding that supports its weights (e.g. Table 4.5, Finding 3.2 for Agile with
+DevOps). Reviewing Sprint 1's initial weights against those findings in Sprint 3 (story
+US-08) found them already directionally consistent for four of the five original factors,
+so the weight values themselves did not change -- only their sourcing did. The `regulation`
+factor is flagged in `rules.json`'s `note` field as resting on conceptual evidence only
+(no direct empirical test was found). The `distributed_team` factor (added in Sprint 2,
+story C1) falls outside the five factors the literature review covers and is not
+evidence-sourced.
+
+### Close calls
+
+When the top two (or more) methodologies score within `close_call_margin` points of each
+other -- a configurable value in `config/rules.json`, currently 2 -- the output names all of
+them as a close call instead of presenting a single winner as clear-cut:
+
+```
+Close call: Scrum, Agile with DevOps (CI/CD) are within 2 point(s) of each other.
+```
+
+The JSON format exposes the same information as `close_call: {"is_close_call": ...,
+"margin": ..., "candidates": [...]}`.
 
 ## Quality gates (GitHub Actions)
 
