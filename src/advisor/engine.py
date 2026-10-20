@@ -31,10 +31,23 @@ class Recommendation:
     ranking: tuple[Score, ...]
     caveats: tuple[str, ...]
     rules_version: str
+    close_call_margin: int
 
     @property
     def best(self) -> Score:
         return self.ranking[0]
+
+    @property
+    def close_call(self) -> tuple[Score, ...]:
+        """Scores within close_call_margin points of the best score, including the best."""
+        best_total = self.ranking[0].total
+        return tuple(
+            score for score in self.ranking if best_total - score.total <= self.close_call_margin
+        )
+
+    @property
+    def is_close_call(self) -> bool:
+        return len(self.close_call) > 1
 
 
 def recommend(context: ProjectContext, rules: RuleSet) -> Recommendation:
@@ -70,4 +83,9 @@ def recommend(context: ProjectContext, rules: RuleSet) -> Recommendation:
         and all(values.get(factor) == level for factor, level in caveat.when.items())
     )
 
-    return Recommendation(ranking=ranking, caveats=caveats, rules_version=rules.version)
+    return Recommendation(
+        ranking=ranking,
+        caveats=caveats,
+        rules_version=rules.version,
+        close_call_margin=rules.close_call_margin,
+    )

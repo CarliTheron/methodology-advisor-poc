@@ -91,6 +91,36 @@ def test_rules_version_is_reported(startup_context, rules):
     assert recommend(startup_context, rules).rules_version == rules.version
 
 
+def test_close_call_margin_is_reported(startup_context, rules):
+    assert recommend(startup_context, rules).close_call_margin == rules.close_call_margin
+
+
+def test_close_call_within_margin(rules_data, startup_context):
+    rules_data["close_call_margin"] = 2
+    for method in rules_data["methodologies"].values():
+        for factor_weights in method["weights"].values():
+            for level in factor_weights:
+                factor_weights[level] = 0
+    rules_data["methodologies"]["scrum"]["weights"]["team_size"]["small"] = 3
+    rules_data["methodologies"]["kanban"]["weights"]["team_size"]["small"] = 1
+    result = recommend(startup_context, parse_rules(rules_data))
+    assert result.is_close_call
+    assert {score.key for score in result.close_call} == {"scrum", "kanban"}
+
+
+def test_close_call_outside_margin(rules_data, startup_context):
+    rules_data["close_call_margin"] = 1
+    for method in rules_data["methodologies"].values():
+        for factor_weights in method["weights"].values():
+            for level in factor_weights:
+                factor_weights[level] = 0
+    rules_data["methodologies"]["scrum"]["weights"]["team_size"]["small"] = 3
+    rules_data["methodologies"]["kanban"]["weights"]["team_size"]["small"] = 1
+    result = recommend(startup_context, parse_rules(rules_data))
+    assert not result.is_close_call
+    assert result.close_call == (result.ranking[0],)
+
+
 def test_unknown_factor_in_rules_is_rejected(rules_data, startup_context):
     rules_data["factors"]["release_automation"] = ["no", "yes"]
     for method in rules_data["methodologies"].values():
