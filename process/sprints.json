@@ -14,13 +14,13 @@
       "start": "2026-10-06",
       "end": "2026-10-13",
       "planned": ["US-07", "C1", "C2"],
-      "completed": []
+      "completed": ["US-07", "C1", "C2"]
     },
     {
       "id": 3,
       "goal": "Calibrate rules against Chapter 4 findings; documentation; change C3",
-      "start": null,
-      "end": null,
+      "start": "2026-10-20",
+      "end": "2026-10-27",
       "planned": ["US-08", "US-09", "C3"],
       "completed": []
     }
