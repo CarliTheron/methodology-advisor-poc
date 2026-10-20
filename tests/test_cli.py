@@ -54,7 +54,8 @@ def test_recommend_json_includes_close_call(capsys):
     assert cli.main([*BASE_ARGS, "--format", "json"]) == 0
     payload = json.loads(capsys.readouterr().out)
     assert payload["close_call"]["is_close_call"] is True
-    assert "agile_devops" in payload["close_call"]["candidates"]
+    assert payload["close_call"]["margin"] == 2
+    assert set(payload["close_call"]["candidates"]) == {"scrum", "agile_devops"}
 
 
 def test_recommend_markdown_shows_close_call(capsys):
@@ -81,6 +82,29 @@ def test_recommend_no_close_call_when_clear_winner(capsys):
     assert cli.main(args) == 0
     out = capsys.readouterr().out
     assert "Close call:" not in out
+
+
+def test_recommend_json_no_close_call_when_clear_winner(capsys):
+    args = [
+        "recommend",
+        "--volatility",
+        "low",
+        "--team-size",
+        "80",
+        "--regulation",
+        "strict",
+        "--release-frequency",
+        "low",
+        "--maturity",
+        "low",
+        "--distributed-team",
+        "no",
+        "--format",
+        "json",
+    ]
+    assert cli.main(args) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["close_call"] == {"is_close_call": False, "margin": 2, "candidates": []}
 
 
 def test_markdown_no_close_call_when_clear_winner(capsys):
