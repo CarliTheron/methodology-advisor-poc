@@ -22,7 +22,7 @@
       "start": "2026-10-20",
       "end": "2026-10-27",
       "planned": ["US-08", "US-09", "C3"],
-      "completed": []
+      "completed": ["US-08", "US-09", "C3"]
     }
   ]
 }

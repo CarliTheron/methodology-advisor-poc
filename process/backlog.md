@@ -34,9 +34,9 @@ commit the change, so the board history is preserved in git.
 
 | ID | User story / change | Acceptance criteria | Status |
 |---|---|---|---|
-| US-08 | As a researcher, I want the rule weights calibrated against the Chapter 4 findings so that the tool reflects the evidence. | Rules version 1.1.0; every changed weight has a source in `rules.json`. | in progress |
-| US-09 | As a user, I want documentation so that I can run the tool without help. | README covers installation, commands and the meaning of scores. | in progress |
-| C3 | **Requirement change (introduced mid-sprint):** flag a "close call" when the top two scores are within a configurable margin. | Margin set in `rules.json`; output names both options when it applies; tests cover the boundary. | in progress |
+| US-08 | As a researcher, I want the rule weights calibrated against the Chapter 4 findings so that the tool reflects the evidence. | Rules version 1.1.0; every changed weight has a source in `rules.json`. | done |
+| US-09 | As a user, I want documentation so that I can run the tool without help. | README covers installation, commands and the meaning of scores. | done |
+| C3 | **Requirement change (introduced mid-sprint):** flag a "close call" when the top two scores are within a configurable margin. | Margin set in `rules.json`; output names both options when it applies; tests cover the boundary. | done |
 
 ## Definition of done
 
