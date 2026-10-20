@@ -46,6 +46,7 @@ class RuleSet:
     version: str
     factors: dict[str, tuple[str, ...]]
     methodologies: dict[str, Methodology]
+    close_call_margin: int
     caveats: tuple[Caveat, ...] = field(default_factory=tuple)
 
 
@@ -62,6 +63,10 @@ def validate_rules(data: Any) -> list[str]:
 
     if not isinstance(data.get("version"), str) or not data.get("version"):
         errors.append("'version' must be a non-empty string")
+
+    margin = data.get("close_call_margin")
+    if not _is_int(margin) or margin < 0:
+        errors.append("'close_call_margin' must be a non-negative integer")
 
     factors = data.get("factors")
     if not isinstance(factors, dict) or not factors:
@@ -149,6 +154,7 @@ def parse_rules(data: Any) -> RuleSet:
     return RuleSet(
         version=data["version"],
         factors={name: tuple(levels) for name, levels in data["factors"].items()},
+        close_call_margin=data["close_call_margin"],
         methodologies={
             key: Methodology(
                 key=key,

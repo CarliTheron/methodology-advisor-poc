@@ -12,6 +12,7 @@ def test_load_rules_parses_shipped_file(rules_path):
     assert rules.version == "1.0.0"
     assert set(rules.methodologies) == {"plan_driven", "scrum", "kanban", "agile_devops", "hybrid"}
     assert len(rules.factors) == 6
+    assert rules.close_call_margin == 2
     assert rules.caveats
 
 
@@ -55,6 +56,17 @@ def test_weights_must_be_bounded_integers(rules_data, bad_weight):
     rules_data["methodologies"]["hybrid"]["weights"]["team_size"]["large"] = bad_weight
     errors = validate_rules(rules_data)
     assert any("hybrid" in error and "team_size=large" in error for error in errors)
+
+
+@pytest.mark.parametrize("bad_margin", [-1, 1.5, True, "2", None])
+def test_close_call_margin_must_be_a_non_negative_integer(rules_data, bad_margin):
+    rules_data["close_call_margin"] = bad_margin
+    assert "'close_call_margin' must be a non-negative integer" in validate_rules(rules_data)
+
+
+def test_missing_close_call_margin_is_reported(rules_data):
+    del rules_data["close_call_margin"]
+    assert "'close_call_margin' must be a non-negative integer" in validate_rules(rules_data)
 
 
 def test_new_factor_requires_weights_for_every_methodology(rules_data):

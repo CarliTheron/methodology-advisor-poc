@@ -1,6 +1,7 @@
 {
   "version": "1.0.0",
   "note": "Initial encoding of the context-based selection framework (report Section 4.6). Weights range from -3 (strongly unsuited) to +3 (strongly suited) and must be recalibrated against the findings in Chapter 4 before the final evaluation.",
+  "close_call_margin": 2,
   "factors": {
     "requirement_volatility": ["low", "medium", "high"],
     "team_size": ["small", "medium", "large"],
