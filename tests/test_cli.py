@@ -83,6 +83,29 @@ def test_recommend_no_close_call_when_clear_winner(capsys):
     assert "Close call:" not in out
 
 
+def test_markdown_no_close_call_when_clear_winner(capsys):
+    args = [
+        "recommend",
+        "--volatility",
+        "low",
+        "--team-size",
+        "80",
+        "--regulation",
+        "strict",
+        "--release-frequency",
+        "low",
+        "--maturity",
+        "low",
+        "--distributed-team",
+        "no",
+        "--format",
+        "markdown",
+    ]
+    assert cli.main(args) == 0
+    out = capsys.readouterr().out
+    assert "## Close call" not in out
+
+
 def test_recommend_markdown_output(capsys):
     assert cli.main([*BASE_ARGS, "--format", "markdown"]) == 0
     out = capsys.readouterr().out
