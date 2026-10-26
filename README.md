@@ -108,6 +108,29 @@ Close call: Scrum, Agile with DevOps (CI/CD) are within 2 point(s) of each other
 The JSON format exposes the same information as `close_call: {"is_close_call": ...,
 "margin": ..., "candidates": [...]}`.
 
+## Evaluating the rules
+
+Two commands test the rules themselves (changes C4 and C5):
+
+```bash
+# Compare recommendations for scenarios A-E with expectations recorded before the tool was run
+python -m advisor check-scenarios --input evaluation/scenarios.json --expected evaluation/expectations.json
+
+# Change each relevant weight by +/-1 (or --step 2) and report changes to the top recommendation
+python -m advisor sensitivity --input evaluation/scenarios.json --step 2
+```
+
+Results, and what they do and do not show, are in `evaluation/README.md`. The evidence
+behind every weight is in `evaluation/source-to-rule-matrix.md`.
+
+## Releases
+
+Pushing a version tag that matches `advisor.__version__` (for example `v0.3.0`) runs
+`.github/workflows/release.yml`: it re-runs the quality gates, builds a wheel with the rules
+bundled, checks that the wheel runs outside the repository, and publishes a GitHub release
+with the evaluation results attached. Each release counts as one deployment in
+`tools/collect_metrics.py`.
+
 ## Quality gates (GitHub Actions)
 
 Every push to `main` and every pull request runs `.github/workflows/ci.yml`:
