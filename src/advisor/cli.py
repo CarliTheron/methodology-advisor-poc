@@ -31,11 +31,18 @@ from advisor.models import ContextError, Level, ProjectContext, Regulation, YesN
 from advisor.rules import RulesError, load_rules
 
 DEFAULT_RULES = Path(__file__).resolve().parents[2] / "config" / "rules.json"
+# Copy of config/rules.json placed inside the package when a release is built,
+# so that an installed wheel works outside the repository.
+BUNDLED_RULES = Path(__file__).resolve().parent / "rules.json"
 
 
 def default_rules_path() -> Path:
-    """Rules path from the ADVISOR_RULES environment variable, else the repo default."""
-    return Path(os.environ.get("ADVISOR_RULES", DEFAULT_RULES))
+    """Rules path: ADVISOR_RULES if set, else the repository file, else the bundled copy."""
+    if "ADVISOR_RULES" in os.environ:
+        return Path(os.environ["ADVISOR_RULES"])
+    if DEFAULT_RULES.exists() or not BUNDLED_RULES.exists():
+        return DEFAULT_RULES
+    return BUNDLED_RULES
 
 
 def build_parser() -> argparse.ArgumentParser:

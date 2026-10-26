@@ -283,3 +283,22 @@ def test_evaluate_reports_engine_error(tmp_path, capsys):
     err = capsys.readouterr().err
     assert "Error:" in err
     assert "extra_factor" in err
+
+
+def test_default_rules_path_prefers_environment(monkeypatch, tmp_path):
+    monkeypatch.setenv("ADVISOR_RULES", str(tmp_path / "custom.json"))
+    assert cli.default_rules_path() == tmp_path / "custom.json"
+
+
+def test_default_rules_path_uses_repository_file(monkeypatch):
+    monkeypatch.delenv("ADVISOR_RULES", raising=False)
+    assert cli.default_rules_path() == cli.DEFAULT_RULES
+
+
+def test_default_rules_path_falls_back_to_bundled_copy(monkeypatch, tmp_path):
+    bundled = tmp_path / "rules.json"
+    bundled.write_text("{}", encoding="utf-8")
+    monkeypatch.delenv("ADVISOR_RULES", raising=False)
+    monkeypatch.setattr(cli, "DEFAULT_RULES", tmp_path / "missing" / "rules.json")
+    monkeypatch.setattr(cli, "BUNDLED_RULES", bundled)
+    assert cli.default_rules_path() == bundled

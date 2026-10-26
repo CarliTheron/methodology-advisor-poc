@@ -4,13 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "methodology-advisor"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Context-based software development methodology advisor (DST481 proof of concept)"
 readme = "README.md"
 requires-python = ">=3.10"
 
 [project.scripts]
 advisor = "advisor.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "advisor.__version__"}
+
+[tool.setuptools.package-data]
+advisor = ["rules.json"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

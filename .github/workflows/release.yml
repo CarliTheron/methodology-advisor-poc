@@ -1,0 +1,73 @@
+name: Release
+
+# A release is published when a version tag (v*) is pushed, normally at the end
+# of a sprint after the sprint review. The tag must match advisor.__version__.
+# Each release counts as one deployment in tools/collect_metrics.py.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check tag matches package version
+        run: |
+          version=$(python -c "import advisor; print(advisor.__version__)")
+          if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package version ${version}" >&2
+            exit 1
+          fi
+
+      - name: Install development dependencies
+        run: pip install -r requirements-dev.txt build
+
+      - name: Re-run quality gates on the tagged commit
+        run: |
+          ruff check .
+          ruff format --check .
+          python -m advisor validate-rules
+          pytest --cov --cov-fail-under=90
+
+      - name: Build wheel and source distribution (rules bundled in the package)
+        run: |
+          cp config/rules.json src/advisor/rules.json
+          python -m build
+
+      - name: Check the wheel works outside the repository
+        run: |
+          python -m venv /tmp/check
+          /tmp/check/bin/pip install dist/*.whl
+          cd /tmp && /tmp/check/bin/advisor recommend --volatility high --team-size 6 \
+            --regulation none --release-frequency high --maturity medium --distributed-team no
+
+      - name: Record the evaluation results for this version
+        run: |
+          python -m advisor check-scenarios --input evaluation/scenarios.json \
+            --expected evaluation/expectations.json > dist/evaluation-${GITHUB_REF_NAME}.md
+          python -m advisor sensitivity --input evaluation/scenarios.json --step 2 \
+            >> dist/evaluation-${GITHUB_REF_NAME}.md
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "${GITHUB_REF_NAME}" dist/*
+          --title "Methodology Advisor ${GITHUB_REF_NAME}"
+          --notes-from-tag
+          --verify-tag

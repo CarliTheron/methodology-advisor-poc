@@ -11,3 +11,6 @@ dist/
 venv/
 reports/
 *.xlsx
+
+# Release-time copy of config/rules.json (see .github/workflows/release.yml)
+src/advisor/rules.json
