@@ -19,6 +19,14 @@ from pathlib import Path
 from advisor import __version__
 from advisor.batch import ScenarioError, ScenarioResult, evaluate_scenarios, load_scenarios
 from advisor.engine import EngineError, Recommendation, recommend
+from advisor.evaluation import (
+    ExpectationError,
+    check_expectations,
+    format_checks_markdown,
+    format_sensitivity_markdown,
+    load_expectations,
+    sensitivity,
+)
 from advisor.models import ContextError, Level, ProjectContext, Regulation, YesNo
 from advisor.rules import RulesError, load_rules
 
@@ -70,6 +78,26 @@ def build_parser() -> argparse.ArgumentParser:
     ev = sub.add_parser("evaluate", help="evaluate a batch of project scenarios from a file")
     ev.add_argument("--input", required=True, type=Path, help="path to a JSON array of scenarios")
     ev.add_argument("--format", choices=["text", "json"], default="text")
+
+    chk = sub.add_parser(
+        "check-scenarios",
+        help="compare scenario recommendations with pre-registered expectations",
+    )
+    chk.add_argument("--input", required=True, type=Path, help="path to a JSON array of scenarios")
+    chk.add_argument("--expected", required=True, type=Path, help="path to the expectations file")
+
+    sen = sub.add_parser(
+        "sensitivity",
+        help="change each relevant weight by +/-1 and report changes to the top recommendation",
+    )
+    sen.add_argument("--input", required=True, type=Path, help="path to a JSON array of scenarios")
+    sen.add_argument(
+        "--step",
+        type=int,
+        choices=[1, 2],
+        default=1,
+        help="size of each weight change (default 1)",
+    )
     return parser
 
 
@@ -197,6 +225,30 @@ def format_batch_json(results: list[ScenarioResult]) -> str:
     )
 
 
+def _run_evaluation(args: argparse.Namespace, rules) -> int:
+    """Run the check-scenarios or sensitivity command (changes C4 and C5)."""
+    try:
+        scenarios = load_scenarios(args.input)
+        if args.command == "check-scenarios":
+            expectations = load_expectations(args.expected)
+            print(format_checks_markdown(check_expectations(scenarios, expectations, rules)))
+        else:
+            results = [
+                sensitivity(
+                    str(entry.get("name", "")),
+                    ProjectContext.from_dict(entry),
+                    rules,
+                    step=args.step,
+                )
+                for entry in scenarios
+            ]
+            print(format_sensitivity_markdown(results))
+    except (ScenarioError, ExpectationError, ContextError, EngineError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     rules_path = args.rules or default_rules_path()
@@ -229,6 +281,9 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         print(format_batch_json(results) if args.format == "json" else format_batch_text(results))
         return 0
+
+    if args.command in ("check-scenarios", "sensitivity"):
+        return _run_evaluation(args, rules)
 
     try:
         context = ProjectContext.from_dict(
