@@ -23,6 +23,30 @@
       "effort_hours": null,
       "caused_failure": false,
       "notes": "Implemented in cli.py (commits 6bfee09, 3c0e7af)."
+    },
+    {
+      "id": "C4",
+      "description": "Evaluate the tool against independently defined scenarios A-E",
+      "sprint": 3,
+      "requested_by": "supervisor",
+      "requested_at": "2026-10-26",
+      "released_at": null,
+      "release_tag": null,
+      "effort_hours": null,
+      "caused_failure": false,
+      "notes": "Supervisor feedback on the 10 Oct draft, shared by the researcher on 26 Oct 2026 (exact receipt time not recorded). Expectations pre-registered in commit 947288f before the evaluation commands were added (2aa1627)."
+    },
+    {
+      "id": "C5",
+      "description": "Justify rule weights and test their sensitivity",
+      "sprint": 3,
+      "requested_by": "supervisor",
+      "requested_at": "2026-10-26",
+      "released_at": null,
+      "release_tag": null,
+      "effort_hours": null,
+      "caused_failure": false,
+      "notes": "Same feedback as C4. Implemented as the sensitivity command and evaluation/source-to-rule-matrix.md."
     }
   ]
 }

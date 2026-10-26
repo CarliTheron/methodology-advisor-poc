@@ -37,6 +37,9 @@ commit the change, so the board history is preserved in git.
 | US-08 | As a researcher, I want the rule weights calibrated against the Chapter 4 findings so that the tool reflects the evidence. | Rules version 1.1.0; every changed weight has a source in `rules.json`. | done |
 | US-09 | As a user, I want documentation so that I can run the tool without help. | README covers installation, commands and the meaning of scores. | done |
 | C3 | **Requirement change (introduced mid-sprint):** flag a "close call" when the top two scores are within a configurable margin. | Margin set in `rules.json`; output names both options when it applies; tests cover the boundary. | done |
+| C4 | **Requirement change (supervisor feedback on the draft, 26 Oct):** evaluate the tool against independently defined scenarios. | Scenarios A–E and expected outcomes committed before the tool is run on them; `check-scenarios` reports agreement per scenario; results in `evaluation/README.md`. | in progress |
+| C5 | **Requirement change (supervisor feedback on the draft, 26 Oct):** justify the weights and test their sensitivity. | `sensitivity` command (±1, ±2); source-to-rule matrix in `evaluation/source-to-rule-matrix.md`; results in `evaluation/README.md`. | in progress |
+| US-10 | As a researcher, I want each sprint to end in a published release so that deployment metrics are measured from real releases. | Pushing a `v*` tag re-runs the gates, builds a wheel that works outside the repository, and publishes a GitHub release with the evaluation results attached. | in progress |
 
 ## Definition of done
 
