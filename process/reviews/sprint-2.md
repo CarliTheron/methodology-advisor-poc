@@ -1,7 +1,8 @@
 # Sprint 2 review
 
 - **Date:** 2026-10-20
-- **Attendees (roles only, no personal details without consent):** supervisor
+- **Attendees (roles only, no personal details without consent):** researcher (developer and product owner) only. No stakeholder other than the researcher attended.
+- **Correction (2026-10-26):** an earlier version of this record listed the supervisor as attendee. That was an error: the supervisor did not take part in this review, and the acceptances below are the researcher's own.
 - **Release reviewed:** `v0.2.0` (tagged by the author following this review, 2026-10-20).
 
 ## Sprint goal and outcome

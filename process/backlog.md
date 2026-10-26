@@ -5,7 +5,7 @@ methodology selection framework from the research report (Section 4.6) to a proj
 characteristics and explains its recommendation.
 
 Process: hybrid Agile-DevOps. Three one-week sprints inside a fixed plan (phase gate:
-supervisor-approved scope), with continuous integration on every push and a tagged
+scope fixed by the researcher in the sprint plan), with continuous integration on every push and a tagged
 release at the end of each sprint.
 
 Status values: `todo`, `in progress`, `done`. Update this file during the sprints and
