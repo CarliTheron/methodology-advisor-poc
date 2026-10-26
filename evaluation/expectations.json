@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-26",
+  "procedure": "Expectations were written from the report's selection framework (Table 4.5) and the supervisor's scenario descriptions, and committed BEFORE the tool was run on these scenarios. They are researcher-defined, not external: they test whether the encoded weights reproduce the evidence-based framework, not whether the framework itself is correct.",
+  "scenarios": {
+    "A: small project, frequently changing requirements": {
+      "acceptable_top": ["scrum", "kanban"],
+      "basis": "Table 4.5 row 1: volatile requirements, small team -> iterative method (Scrum or Kanban). Confidence: moderate."
+    },
+    "B: large project, stable requirements, formal compliance": {
+      "acceptable_top": ["plan_driven", "hybrid"],
+      "basis": "Table 4.5 row 4: stable requirements, strict regulation -> plan-driven, or hybrid with documentation gates. Confidence: low (conceptual evidence only)."
+    },
+    "C: multiple distributed teams with integration dependencies": {
+      "acceptable_top": ["hybrid"],
+      "basis": "Table 4.5 row 3: large or multi-team project -> explicitly defined hybrid or scaled approach with cross-team coordination. Confidence: moderate."
+    },
+    "D: small team with limited methodology experience": {
+      "acceptable_top": ["scrum", "kanban", "hybrid", "plan_driven"],
+      "not_top": ["agile_devops"],
+      "required_caveat_keyword": "training",
+      "basis": "Table 4.5 row 5: in any context, low maturity -> invest in training, coaching and management support; Finding 3.2: DevOps benefits are reported for mature teams, so Agile with DevOps should not be the top recommendation. The training guidance must be shown whatever the recommendation."
+    },
+    "E: frequent releases and operational stability": {
+      "acceptable_top": ["agile_devops"],
+      "basis": "Table 4.5 row 2: frequent releases, mature team -> Agile with DevOps practices and delivery measures. Confidence: moderate."
+    }
+  }
+}

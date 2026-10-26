@@ -1,0 +1,47 @@
+[
+  {
+    "name": "A: small project, frequently changing requirements",
+    "requirement_volatility": "high",
+    "team_size": 5,
+    "regulation": "none",
+    "release_frequency": "medium",
+    "team_maturity": "medium",
+    "distributed_team": "no"
+  },
+  {
+    "name": "B: large project, stable requirements, formal compliance",
+    "requirement_volatility": "low",
+    "team_size": 60,
+    "regulation": "strict",
+    "release_frequency": "low",
+    "team_maturity": "medium",
+    "distributed_team": "no"
+  },
+  {
+    "name": "C: multiple distributed teams with integration dependencies",
+    "requirement_volatility": "medium",
+    "team_size": 60,
+    "regulation": "moderate",
+    "release_frequency": "medium",
+    "team_maturity": "medium",
+    "distributed_team": "yes"
+  },
+  {
+    "name": "D: small team with limited methodology experience",
+    "requirement_volatility": "medium",
+    "team_size": 5,
+    "regulation": "none",
+    "release_frequency": "medium",
+    "team_maturity": "low",
+    "distributed_team": "no"
+  },
+  {
+    "name": "E: frequent releases and operational stability",
+    "requirement_volatility": "medium",
+    "team_size": 15,
+    "regulation": "moderate",
+    "release_frequency": "high",
+    "team_maturity": "high",
+    "distributed_team": "no"
+  }
+]
