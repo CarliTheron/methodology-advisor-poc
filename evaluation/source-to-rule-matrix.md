@@ -43,7 +43,7 @@ Links every factor's weights in `config/rules.json` to the evidence in the repor
 ## release_frequency
 
 **Evidence:** Forsgren et al. (2018). Finding 3.2  
-**Confidence:** Moderate  
+**Confidence:** Low (single research programme; report Section 3.4.6 criteria)  
 **Note:** Direction: Agile with DevOps favoured for frequent releases. Survey-based, self-reported delivery measures.
 
 | Level | Plan | Scrum | Kanban | DevOps | Hybrid |
