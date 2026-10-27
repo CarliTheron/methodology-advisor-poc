@@ -25,13 +25,25 @@
       "notes": "Implemented in cli.py (commits 6bfee09, 3c0e7af). Correction (2026-10-26): requested_by previously read 'supervisor' in error; C1 and C2 were planned by the researcher as part of the proof-of-concept design."
     },
     {
+      "id": "C3",
+      "description": "Flag a close call when the top scores are within a configurable margin",
+      "sprint": 3,
+      "requested_by": "researcher (planned requirement change)",
+      "requested_at": "2026-10-20T17:30:02+02:00",
+      "released_at": "2026-10-27T17:10:05+02:00",
+      "release_tag": "v0.3.0",
+      "effort_hours": null,
+      "caused_failure": false,
+      "notes": "Introduced in the Sprint 3 planning commit 6722124; implemented in commits 8d5cd13, aeec50e, 72dc6f4, abed229, b49f5ba (20 Oct). Added to this log on 2026-10-27; it had been omitted."
+    },
+    {
       "id": "C4",
       "description": "Evaluate the tool against independently defined scenarios A-E",
       "sprint": 3,
       "requested_by": "supervisor",
       "requested_at": "2026-10-26",
-      "released_at": null,
-      "release_tag": null,
+      "released_at": "2026-10-27T17:10:05+02:00",
+      "release_tag": "v0.3.0",
       "effort_hours": null,
       "caused_failure": false,
       "notes": "Supervisor feedback on the 10 Oct draft, shared by the researcher on 26 Oct 2026 (exact receipt time not recorded). Expectations pre-registered in commit 947288f before the evaluation commands were added (2aa1627)."
@@ -42,8 +54,8 @@
       "sprint": 3,
       "requested_by": "supervisor",
       "requested_at": "2026-10-26",
-      "released_at": null,
-      "release_tag": null,
+      "released_at": "2026-10-27T17:10:05+02:00",
+      "release_tag": "v0.3.0",
       "effort_hours": null,
       "caused_failure": false,
       "notes": "Same feedback as C4. Implemented as the sensitivity command and evaluation/source-to-rule-matrix.md."

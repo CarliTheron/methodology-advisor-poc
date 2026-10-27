@@ -5,7 +5,14 @@
       "goal": "Baseline: rules-driven recommendation core with CI quality gates",
       "start": "2026-10-06",
       "end": "2026-10-12",
-      "planned": ["US-01", "US-02", "US-03", "US-04", "US-05", "US-06"],
+      "planned": [
+        "US-01",
+        "US-02",
+        "US-03",
+        "US-04",
+        "US-05",
+        "US-06"
+      ],
       "completed": []
     },
     {
@@ -13,16 +20,38 @@
       "goal": "Batch evaluation; absorb requirement changes C1 and C2",
       "start": "2026-10-06",
       "end": "2026-10-13",
-      "planned": ["US-07", "C1", "C2"],
-      "completed": ["US-07", "C1", "C2"]
+      "planned": [
+        "US-07",
+        "C1",
+        "C2"
+      ],
+      "completed": [
+        "US-07",
+        "C1",
+        "C2"
+      ]
     },
     {
       "id": 3,
       "goal": "Calibrate rules against Chapter 4 findings; documentation; change C3",
       "start": "2026-10-20",
       "end": "2026-10-27",
-      "planned": ["US-08", "US-09", "C3"],
-      "completed": ["US-08", "US-09", "C3"]
+      "planned": [
+        "US-08",
+        "US-09",
+        "C3",
+        "C4",
+        "C5",
+        "US-10"
+      ],
+      "completed": [
+        "US-08",
+        "US-09",
+        "C3",
+        "C4",
+        "C5",
+        "US-10"
+      ]
     }
   ]
 }

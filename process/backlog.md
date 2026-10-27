@@ -39,7 +39,7 @@ commit the change, so the board history is preserved in git.
 | C3 | **Requirement change (introduced mid-sprint):** flag a "close call" when the top two scores are within a configurable margin. | Margin set in `rules.json`; output names both options when it applies; tests cover the boundary. | done |
 | C4 | **Requirement change (supervisor feedback on the draft, 26 Oct):** evaluate the tool against independently defined scenarios. | Scenarios A–E and expected outcomes committed before the tool is run on them; `check-scenarios` reports agreement per scenario; results in `evaluation/README.md`. | done |
 | C5 | **Requirement change (supervisor feedback on the draft, 26 Oct):** justify the weights and test their sensitivity. | `sensitivity` command (±1, ±2); source-to-rule matrix in `evaluation/source-to-rule-matrix.md`; results in `evaluation/README.md`. | done |
-| US-10 | As a researcher, I want each sprint to end in a published release so that deployment metrics are measured from real releases. | Pushing a `v*` tag re-runs the gates, builds a wheel that works outside the repository, and publishes a GitHub release with the evaluation results attached. | in progress |
+| US-10 | As a researcher, I want each sprint to end in a published release so that deployment metrics are measured from real releases. | Pushing a `v*` tag re-runs the gates, builds a wheel that works outside the repository, and publishes a GitHub release with the evaluation results attached. | done |
 
 ## Definition of done
 
