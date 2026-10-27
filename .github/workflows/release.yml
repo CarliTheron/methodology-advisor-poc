@@ -63,7 +63,7 @@ jobs:
       - name: Check the wheel works outside the repository
         run: |
           check() {
-            out=$("$@" 2>&1); code=$?
+            code=0; out=$("$@" 2>&1) || code=$?
             echo "$out"
             if [ $code -ne 0 ]; then
               echo "::error title=Wheel check::$* failed ($code): $(echo "$out" | tail -n 6 | tr '\n' ' ')"
