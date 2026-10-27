@@ -1,12 +1,15 @@
 name: Release
 
-# A release is published when a version tag (v*) is pushed, normally at the end
-# of a sprint after the sprint review. The tag must match advisor.__version__.
-# Each release counts as one deployment in tools/collect_metrics.py.
+# Runs at the end of a sprint, after the sprint review, either when a version tag
+# (v*) is pushed or when a release is published from the GitHub website (which
+# creates the tag). The tag must match advisor.__version__. Each release counts as
+# one deployment in tools/collect_metrics.py.
 
 on:
   push:
     tags: ["v*"]
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -63,11 +66,14 @@ jobs:
           python -m advisor sensitivity --input evaluation/scenarios.json --step 2 \
             >> dist/evaluation-${GITHUB_REF_NAME}.md
 
-      - name: Publish GitHub release
+      - name: Publish GitHub release, or attach files to the one created on the website
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >
-          gh release create "${GITHUB_REF_NAME}" dist/*
-          --title "Methodology Advisor ${GITHUB_REF_NAME}"
-          --notes-from-tag
-          --verify-tag
+        run: |
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" dist/* --clobber
+          else
+            gh release create "${GITHUB_REF_NAME}" dist/* \
+              --title "Methodology Advisor ${GITHUB_REF_NAME}" \
+              --generate-notes --verify-tag
+          fi

@@ -125,7 +125,7 @@ behind every weight is in `evaluation/source-to-rule-matrix.md`.
 
 ## Releases
 
-Pushing a version tag that matches `advisor.__version__` (for example `v0.3.0`) runs
+Pushing a version tag that matches `advisor.__version__` (for example `v0.3.0`), or publishing a release with that tag from the GitHub website, runs
 `.github/workflows/release.yml`: it re-runs the quality gates, builds a wheel with the rules
 bundled, checks that the wheel runs outside the repository, and publishes a GitHub release
 with the evaluation results attached. Each release counts as one deployment in
