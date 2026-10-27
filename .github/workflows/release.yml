@@ -71,12 +71,10 @@ jobs:
             fi
           }
           ls -l dist
-          echo "::notice title=Wheel contents::$(python -m zipfile -l dist/*.whl | awk '{print $1}' | tr '\n' ' ')"
-          echo "::notice title=Build tools::$(python -m pip list 2>/dev/null | grep -iE '^(setuptools|build|pip) ' | tr '\n' ' ')"
-          check python -m pip install dist/*.whl
-          echo "::notice title=pip show::$(python -m pip show methodology-advisor 2>&1 | tr '\n' ' ')"
+          # PYTHONPATH=src would make pip see the build's metadata in src/ as an
+          # installed copy and skip the install, so it is unset for both commands.
+          check env -u PYTHONPATH python -m pip install dist/*.whl
           cd "$RUNNER_TEMP"
-          echo "::notice title=sys.path::$(env -u PYTHONPATH python -c 'import sys, importlib.util; print(sys.executable, sys.path, importlib.util.find_spec("advisor"))' 2>&1 | tr '\n' ' ')"
           check env -u PYTHONPATH python -m advisor recommend --volatility high --team-size 6 \
             --regulation none --release-frequency high --maturity medium --distributed-team no
 
