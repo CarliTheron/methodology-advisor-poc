@@ -71,6 +71,8 @@ jobs:
             fi
           }
           ls -l dist
+          echo "::notice title=Wheel contents::$(python -m zipfile -l dist/*.whl | awk '{print $1}' | tr '\n' ' ')"
+          echo "::notice title=Build tools::$(python -m pip list 2>/dev/null | grep -iE '^(setuptools|build|pip) ' | tr '\n' ' ')"
           check python -m pip install dist/*.whl
           cd "$RUNNER_TEMP"
           check env -u PYTHONPATH python -m advisor recommend --volatility high --team-size 6 \
