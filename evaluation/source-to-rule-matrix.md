@@ -4,6 +4,21 @@ Links every factor's weights in `config/rules.json` to the evidence in the repor
 
 **How the weights were set.** The *direction* of each weight (favoured, neutral, penalised) follows the cited findings. The *magnitude* (1, 2 or 3) is a design judgement: none of the sources reports effect sizes that can be converted into points. Where the sources are silent, the weight is identified below as a design assumption. The sensitivity analysis in `evaluation/README.md` tests whether recommendations depend on these exact magnitudes.
 
+
+> **Update after the full literature synthesis (report Chapter 4, 29 Oct 2026).**
+> The confidence ratings below are those at encoding, from the twelve core sources.
+> After the structured search (35 sources), the report revises them as follows; the
+> weights in `config/rules.json` have **not** been re-encoded and still follow the ratings below.
+>
+> | Factor | At encoding | After synthesis |
+> |---|---|---|
+> | requirement_volatility | Moderate | Moderate |
+> | team_size | Moderate | High (need to design coordination at scale) |
+> | regulation | Low | Low; direction no longer supported (evidence favours adapted agile or hybrid with explicit assurance) |
+> | release_frequency | Low | Moderate |
+> | team_maturity | Moderate | High |
+> | distributed_team | Unsourced | Unsourced |
+
 ## requirement_volatility
 
 **Evidence:** Boehm (2002); Serrador & Pinto (2015); Kuhrmann et al. (2017). Findings 1.1, 1.2, 2.1  
