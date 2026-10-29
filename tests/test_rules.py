@@ -9,7 +9,7 @@ def test_shipped_rules_are_valid(rules_data):
 
 def test_load_rules_parses_shipped_file(rules_path):
     rules = load_rules(rules_path)
-    assert rules.version == "1.1.0"
+    assert rules.version == "1.2.0"
     assert set(rules.methodologies) == {"plan_driven", "scrum", "kanban", "agile_devops", "hybrid"}
     assert len(rules.factors) == 6
     assert rules.close_call_margin == 2

@@ -28,7 +28,7 @@ def test_recommend_text_output(capsys):
     out = capsys.readouterr().out
     assert out.startswith("Recommended: ")
     assert "Ranking:" in out
-    assert "Rules version: 1.1.0" in out
+    assert "Rules version: 1.2.0" in out
 
 
 def test_recommend_json_output(capsys):
@@ -55,7 +55,7 @@ def test_recommend_json_includes_close_call(capsys):
     payload = json.loads(capsys.readouterr().out)
     assert payload["close_call"]["is_close_call"] is True
     assert payload["close_call"]["margin"] == 2
-    assert set(payload["close_call"]["candidates"]) == {"scrum", "agile_devops"}
+    assert set(payload["close_call"]["candidates"]) == {"scrum", "agile_devops", "kanban"}
 
 
 def test_recommend_markdown_shows_close_call(capsys):
@@ -67,17 +67,17 @@ def test_recommend_no_close_call_when_clear_winner(capsys):
     args = [
         "recommend",
         "--volatility",
-        "low",
+        "medium",
         "--team-size",
-        "80",
+        "60",
         "--regulation",
-        "strict",
+        "moderate",
         "--release-frequency",
-        "low",
+        "medium",
         "--maturity",
-        "low",
+        "medium",
         "--distributed-team",
-        "no",
+        "yes",
     ]
     assert cli.main(args) == 0
     out = capsys.readouterr().out
@@ -88,17 +88,17 @@ def test_recommend_json_no_close_call_when_clear_winner(capsys):
     args = [
         "recommend",
         "--volatility",
-        "low",
+        "medium",
         "--team-size",
-        "80",
+        "60",
         "--regulation",
-        "strict",
+        "moderate",
         "--release-frequency",
-        "low",
+        "medium",
         "--maturity",
-        "low",
+        "medium",
         "--distributed-team",
-        "no",
+        "yes",
         "--format",
         "json",
     ]
@@ -111,17 +111,17 @@ def test_markdown_no_close_call_when_clear_winner(capsys):
     args = [
         "recommend",
         "--volatility",
-        "low",
+        "medium",
         "--team-size",
-        "80",
+        "60",
         "--regulation",
-        "strict",
+        "moderate",
         "--release-frequency",
-        "low",
+        "medium",
         "--maturity",
-        "low",
+        "medium",
         "--distributed-team",
-        "no",
+        "yes",
         "--format",
         "markdown",
     ]

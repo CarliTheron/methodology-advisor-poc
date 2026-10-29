@@ -68,9 +68,20 @@ def test_ties_are_broken_alphabetically(rules_data, startup_context):
 
 
 def test_caveat_applies_only_to_matching_recommendation(regulated_context, rules):
-    # Low maturity caveat targets agile methods; plan-driven is recommended here.
+    # Two strict-regulation caveats exist: one for plan-driven, one for the iterative methods.
+    # Plan-driven is recommended here, so only its own caveat is shown.
     result = recommend(regulated_context, rules)
-    assert not any("maturity" in message for message in result.caveats)
+    assert result.best.key == "plan_driven"
+    assert any("one acceptable option" in message for message in result.caveats)
+    assert not any("adapted agile processes have met" in message for message in result.caveats)
+
+
+def test_framework_wide_caveats_apply_to_every_recommendation(regulated_context, rules):
+    # Revised framework (C6): coordination at scale and training for low maturity apply
+    # whichever methodology is recommended.
+    result = recommend(regulated_context, rules)
+    assert any("maturity is low" in message.lower() for message in result.caveats)
+    assert any("coordination across teams" in message for message in result.caveats)
 
 
 def test_caveat_is_reported_for_matching_context(rules):

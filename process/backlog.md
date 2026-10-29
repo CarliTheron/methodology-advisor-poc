@@ -41,6 +41,12 @@ commit the change, so the board history is preserved in git.
 | C5 | **Requirement change (supervisor feedback on the draft, 26 Oct):** justify the weights and test their sensitivity. | `sensitivity` command (±1, ±2); source-to-rule matrix in `evaluation/source-to-rule-matrix.md`; results in `evaluation/README.md`. | done |
 | US-10 | As a researcher, I want each sprint to end in a published release so that deployment metrics are measured from real releases. | Pushing a `v*` tag re-runs the gates, builds a wheel that works outside the repository, and publishes a GitHub release with the evaluation results attached. | done |
 
+## After Sprint 3: maintenance change
+
+| ID | User story / change | Acceptance criteria | Status |
+|---|---|---|---|
+| C6 | **Requirement change (researcher, 29 Oct, after the full literature synthesis):** re-encode the rules to follow the revised selection framework (report Table 4.5). | Expectations for scenarios A–E written from the revised framework and committed before the rules change; rules 1.2.0 agree with them; regulation weights capped at ±1; coordination and training caveats shown for every methodology; sensitivity re-run; matrix and README updated; released as `v0.4.0`. | implemented; release pending |
+
 ## Definition of done
 
 - Code reviewed against the acceptance criteria.

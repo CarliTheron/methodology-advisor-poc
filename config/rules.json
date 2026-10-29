@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "note": "Calibrated in Sprint 3 against Chapter 4 findings (Theron, DST481). Weights range from -3 (strongly unsuited) to +3 (strongly suited). Reviewing Sprint 1's initial weights against Chapter 4 Table 4.5 found them already directionally consistent with the evidence for requirement_volatility, team_size, release_frequency and team_maturity, so no weight values were changed; each methodology's rationale and sources now cite the specific findings that support it. Finding 2.2 is a two-part finding: it reports convergent evidence that organisational culture and team maturity condition adoption (the strongest-evidenced context factor, cited in the team_maturity caveat), but that the claim plan-driven methods suit regulated settings rests only on Boehm (2002)'s conceptual argument (the weakest-evidenced factor, cited in the regulation caveat). The distributed_team factor (added in Sprint 2 as requirement change C1) is outside the five factors covered by the Chapter 4 literature review (Figure 2.1) and is not addressed by this calibration.",
+  "version": "1.2.0",
+  "note": "Re-encoded on 29 Oct 2026 (change C6) to follow the selection framework as revised after the full synthesis of 35 sources (Theron, DST481, Table 4.5). Magnitude rule: the largest weight a factor may carry depends on the confidence in its evidence -- up to 3 for moderate or high confidence, at most 1 for low confidence or a design assumption. Changes from 1.1.0: (1) regulation is rated low confidence and the evidence no longer supports favouring plan-driven methods (Ribeiro et al. 2025; Smith et al. 2019 report adapted agile processes meeting regulatory demands), so its weights are capped at +/-1 and no longer separate plan-driven from adapted agile or hybrid processes under strict regulation; (2) the coordination guidance for large projects (high confidence; Kula et al. 2022, Berntzen et al. 2023, Bick et al. 2018) and the training and change-management guidance for low maturity (high confidence; McKenzie et al. 2021, Uludag et al. 2019, Dikert et al. 2016) now apply whichever methodology is recommended; (3) the regulation caveat now cites the empirical sources and covers the hybrid. Weights for requirement_volatility, team_size, release_frequency, team_maturity and distributed_team are unchanged; release_frequency's evidence is now rated moderate (Forsgren et al. 2018; Offerman et al. 2022; Lopez-Fernandez et al. 2022) but its weights already used the full range.",
   "close_call_margin": 2,
   "factors": {
     "requirement_volatility": ["low", "medium", "high"],
@@ -13,12 +13,12 @@
   "methodologies": {
     "plan_driven": {
       "label": "Plan-driven (Waterfall / V-Model)",
-      "rationale": "Home ground: stable requirements and strict regulation (Table 4.5; Finding 2.2 -- conceptual evidence only, Boehm 2002).",
-      "sources": ["Boehm2002"],
+      "rationale": "Suits stable requirements and infrequent releases (Table 4.5; Findings 1.1, 2.1). For strict regulation it is one acceptable option among adapted agile and hybrid processes, not the only one (Finding 2.3, low confidence).",
+      "sources": ["Boehm2002", "Akbar2018"],
       "weights": {
         "requirement_volatility": {"low": 3, "medium": 0, "high": -3},
         "team_size": {"small": -1, "medium": 1, "large": 2},
-        "regulation": {"none": -1, "moderate": 1, "strict": 3},
+        "regulation": {"none": -1, "moderate": 1, "strict": 1},
         "release_frequency": {"low": 2, "medium": 0, "high": -3},
         "team_maturity": {"low": 1, "medium": 0, "high": -1},
         "distributed_team": {"no": 0, "yes": 1}
@@ -27,11 +27,19 @@
     "scrum": {
       "label": "Scrum",
       "rationale": "Iterative delivery for small teams facing changing requirements (Table 4.5: volatile requirements and small team favour an iterative method; Findings 1.1, 1.2, 2.1).",
-      "sources": ["Boehm2002", "SchwaberSutherland2020", "Serrador2015", "Kuhrmann2017"],
+      "sources": [
+        "Boehm2002",
+        "SchwaberSutherland2020",
+        "Serrador2015",
+        "Kuhrmann2017",
+        "BinbogaGumussoy2024",
+        "NatarajanPichai2024",
+        "Ribeiro2025"
+      ],
       "weights": {
         "requirement_volatility": {"low": -1, "medium": 2, "high": 3},
         "team_size": {"small": 3, "medium": 1, "large": -2},
-        "regulation": {"none": 2, "moderate": 0, "strict": -2},
+        "regulation": {"none": 1, "moderate": 0, "strict": 0},
         "release_frequency": {"low": -1, "medium": 2, "high": 1},
         "team_maturity": {"low": -2, "medium": 1, "high": 2},
         "distributed_team": {"no": 1, "yes": -1}
@@ -44,7 +52,7 @@
       "weights": {
         "requirement_volatility": {"low": 0, "medium": 1, "high": 2},
         "team_size": {"small": 2, "medium": 1, "large": -1},
-        "regulation": {"none": 1, "moderate": 0, "strict": -2},
+        "regulation": {"none": 1, "moderate": 0, "strict": -1},
         "release_frequency": {"low": -1, "medium": 1, "high": 2},
         "team_maturity": {"low": -1, "medium": 1, "high": 2},
         "distributed_team": {"no": 0, "yes": 1}
@@ -52,12 +60,12 @@
     },
     "agile_devops": {
       "label": "Agile with DevOps (CI/CD)",
-      "rationale": "Frequent releases with automated build, test and deployment; demands technical maturity (Table 4.5: frequent releases and a mature team favour Agile with DevOps and delivery measures; Finding 3.2 -- Forsgren et al. 2018).",
-      "sources": ["Forsgren2018", "HumbleFarley2010"],
+      "rationale": "Frequent releases with automated build, test and deployment; demands technical maturity (Table 4.5: frequent releases and a mature team favour Agile with DevOps and delivery measures; Finding 3.2: Forsgren et al. 2018; Offerman et al. 2022; Lopez-Fernandez et al. 2022, moderate confidence).",
+      "sources": ["Forsgren2018", "HumbleFarley2010", "Offerman2022", "LopezFernandez2022"],
       "weights": {
         "requirement_volatility": {"low": -1, "medium": 1, "high": 3},
         "team_size": {"small": 1, "medium": 2, "large": 1},
-        "regulation": {"none": 2, "moderate": 1, "strict": -1},
+        "regulation": {"none": 1, "moderate": 1, "strict": 0},
         "release_frequency": {"low": -3, "medium": 1, "high": 3},
         "team_maturity": {"low": -3, "medium": 0, "high": 3},
         "distributed_team": {"no": 0, "yes": 1}
@@ -65,12 +73,12 @@
     },
     "hybrid": {
       "label": "Defined hybrid (phase gates + iterations)",
-      "rationale": "Plan-driven governance with iterative delivery inside phases; suited to larger or regulated settings (Table 4.5: a large or multi-team project favours an explicitly defined hybrid or scaled approach with cross-team coordination designed in; Findings 1.1, 4.1, 4.3).",
-      "sources": ["Kuhrmann2017", "Dikert2016", "Edison2022"],
+      "rationale": "Plan-driven governance with iterative delivery inside phases; suited to large or multi-team projects when coordination and planning between team and programme levels are designed in (Table 4.5; Findings 2.2, 3.3, 4.4), and acceptable under regulation with explicit assurance gates (Finding 2.3).",
+      "sources": ["Kuhrmann2017", "Kuhrmann2022", "Dikert2016", "Edison2022", "Bick2018", "Kula2022", "Berntzen2023"],
       "weights": {
         "requirement_volatility": {"low": 1, "medium": 2, "high": 1},
         "team_size": {"small": -2, "medium": 2, "large": 3},
-        "regulation": {"none": -1, "moderate": 2, "strict": 2},
+        "regulation": {"none": -1, "moderate": 1, "strict": 1},
         "release_frequency": {"low": 1, "medium": 2, "high": 0},
         "team_maturity": {"low": 1, "medium": 1, "high": 0},
         "distributed_team": {"no": 0, "yes": 1}
@@ -80,18 +88,23 @@
   "caveats": [
     {
       "when": {"team_maturity": "low"},
-      "applies_to": ["scrum", "kanban", "agile_devops"],
-      "message": "Team agile maturity is low: plan training and coaching before and during adoption (Dikert et al., 2016; Table 4.5, F2.2/F4.1/F4.3)."
+      "applies_to": ["plan_driven", "scrum", "kanban", "agile_devops", "hybrid"],
+      "message": "Team maturity is low: invest in training, coaching, management support and change management before and during adoption, whichever methodology is chosen (Dikert et al., 2016; McKenzie et al., 2021; Uludag et al., 2019; Table 4.5, high confidence)."
     },
     {
       "when": {"regulation": "strict"},
-      "applies_to": ["scrum", "kanban", "agile_devops"],
-      "message": "Strict regulation: add explicit documentation and approval gates to the iterative process. Evidence for this is conceptual only (Boehm, 2002; Table 4.5, F2.2) and has not yet been empirically tested."
+      "applies_to": ["scrum", "kanban", "agile_devops", "hybrid"],
+      "message": "Strict regulation: plan documentation, verification and certification evidence explicitly within the iterative process; adapted agile processes have met such demands (Ribeiro et al., 2025; Smith et al., 2019), but the evidence is limited (Table 4.5, low confidence)."
+    },
+    {
+      "when": {"regulation": "strict"},
+      "applies_to": ["plan_driven"],
+      "message": "Strict regulation: a plan-driven process is one acceptable option, but the limited evidence also supports adapted agile or hybrid processes with explicit assurance gates (Table 4.5, Finding 2.3, low confidence)."
     },
     {
       "when": {"team_size": "large"},
-      "applies_to": ["scrum", "kanban"],
-      "message": "Large team: a single-team framework needs added cross-team coordination (Dikert et al., 2016; Edison et al., 2022; Table 4.5, F4.1)."
+      "applies_to": ["plan_driven", "scrum", "kanban", "agile_devops", "hybrid"],
+      "message": "Large or multi-team project: design coordination across teams (roles, meetings, shared artefacts) and align planning between team and programme levels, whichever approach is used (Kula et al., 2022; Berntzen et al., 2023; Bick et al., 2018; Table 4.5, high confidence)."
     },
     {
       "when": {"requirement_volatility": "high"},
@@ -101,7 +114,7 @@
     {
       "when": {"distributed_team": "yes"},
       "applies_to": ["scrum"],
-      "message": "Distributed team: invest in strong asynchronous communication and documentation to offset reduced face-to-face coordination (Boehm, 2002)."
+      "message": "Distributed team: invest in strong asynchronous communication and documentation to offset reduced face-to-face coordination (design assumption, change C1)."
     }
   ]
 }

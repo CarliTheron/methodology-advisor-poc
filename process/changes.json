@@ -59,6 +59,18 @@
       "effort_hours": null,
       "caused_failure": false,
       "notes": "Same feedback as C4. Implemented as the sensitivity command and evaluation/source-to-rule-matrix.md."
+    },
+    {
+      "id": "C6",
+      "description": "Re-encode the rules to follow the selection framework revised after the full literature synthesis",
+      "sprint": null,
+      "requested_by": "researcher (after self-assessment against supervisor feedback)",
+      "requested_at": "2026-10-29T13:14:00+02:00",
+      "released_at": null,
+      "release_tag": null,
+      "effort_hours": null,
+      "caused_failure": false,
+      "notes": "Raised after Sprint 3 because the report's Chapter 4 revision made the encoded rules inconsistent with the framework. Expectations pre-registered in commit dc13ef8 before the rules were changed; rules 1.1.0 agreed with them in 3 of 5 scenarios, rules 1.2.0 in 5 of 5. Not part of a sprint."
     }
   ]
 }

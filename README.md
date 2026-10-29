@@ -50,7 +50,7 @@ Factor contributions for Scrum:
   team_maturity            +1
   distributed_team         +1
 
-Rules version: 1.1.0
+Rules version: 1.2.0
 ```
 
 Other commands:
@@ -84,6 +84,11 @@ are an ordinal ranking, not a probability or a percentage -- a score of 11 means
 ahead of a score of 9 by 2 points," not "11% more suitable." The output shows every
 factor's contribution and any caveats, so the reasoning can be inspected and challenged
 rather than taken on trust.
+
+Rules 1.2.0 (change C6, 29 October 2026) follow the selection framework as revised after
+the report's full literature synthesis: regulation weights are capped at +/-1 because the
+evidence is weak and no longer favours plan-driven methods, and the coordination and training
+guidance is shown for every methodology. See `evaluation/source-to-rule-matrix.md`.
 
 Each methodology's `rationale` and `sources` in `config/rules.json` cite the specific
 Chapter 4 finding that supports its weights (e.g. Table 4.5, Finding 3.2 for Agile with
@@ -125,7 +130,7 @@ behind every weight is in `evaluation/source-to-rule-matrix.md`.
 
 ## Releases
 
-Pushing a version tag that matches `advisor.__version__` (for example `v0.3.0`), or publishing a release with that tag from the GitHub website, runs
+Pushing a version tag that matches `advisor.__version__` (for example `v0.4.0`), or publishing a release with that tag from the GitHub website, runs
 `.github/workflows/release.yml`: it re-runs the quality gates, builds a wheel with the rules
 bundled, checks that the wheel runs outside the repository, and publishes a GitHub release
 with the evaluation results attached. Each release counts as one deployment in
