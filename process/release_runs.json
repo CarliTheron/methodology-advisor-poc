@@ -1,5 +1,5 @@
 {
-  "_source": "Exported from GET https://api.github.com/repos/CarliTheron/methodology-advisor-poc/actions/runs on 2026-10-27. Fields trimmed to what tools/collect_metrics.py reads; values are verbatim from the API response. Release workflow only.",
+  "_source": "Exported from GET https://api.github.com/repos/CarliTheron/methodology-advisor-poc/actions/runs on 2026-10-29 (re-exported after release v0.4.0). Fields trimmed to what tools/collect_metrics.py reads; values are verbatim from the API response. Release workflow only.",
   "workflow_runs": [
     {
       "id": 40528279858,
@@ -112,6 +112,34 @@
       "run_started_at": "2026-10-27T15:16:21Z",
       "updated_at": "2026-10-27T15:16:41Z",
       "html_url": "https://github.com/CarliTheron/methodology-advisor-poc/actions/runs/40529316907"
+    },
+    {
+      "id": 40877915400,
+      "name": "Release",
+      "head_branch": "v0.4.0",
+      "head_sha": "27ef24f1fc340e0c204dce0d459c379e3ecdb6f2",
+      "run_number": 9,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-29T12:59:40Z",
+      "run_started_at": "2026-10-29T12:59:40Z",
+      "updated_at": "2026-10-29T13:00:07Z",
+      "html_url": "https://github.com/CarliTheron/methodology-advisor-poc/actions/runs/40877915400"
+    },
+    {
+      "id": 40877915864,
+      "name": "Release",
+      "head_branch": "v0.4.0",
+      "head_sha": "27ef24f1fc340e0c204dce0d459c379e3ecdb6f2",
+      "run_number": 10,
+      "event": "release",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-29T12:59:40Z",
+      "run_started_at": "2026-10-29T12:59:40Z",
+      "updated_at": "2026-10-29T12:59:58Z",
+      "html_url": "https://github.com/CarliTheron/methodology-advisor-poc/actions/runs/40877915864"
     }
   ]
 }

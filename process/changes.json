@@ -66,11 +66,11 @@
       "sprint": null,
       "requested_by": "researcher (after self-assessment against supervisor feedback)",
       "requested_at": "2026-10-29T13:14:00+02:00",
-      "released_at": null,
-      "release_tag": null,
+      "released_at": "2026-10-29T14:59:39+02:00",
+      "release_tag": "v0.4.0",
       "effort_hours": null,
       "caused_failure": false,
-      "notes": "Raised after Sprint 3 because the report's Chapter 4 revision made the encoded rules inconsistent with the framework. Expectations pre-registered in commit dc13ef8 before the rules were changed; rules 1.1.0 agreed with them in 3 of 5 scenarios, rules 1.2.0 in 5 of 5. Not part of a sprint."
+      "notes": "Raised after Sprint 3 because the report's Chapter 4 revision made the encoded rules inconsistent with the framework. Expectations pre-registered in commit dc13ef8 before the rules were changed; rules 1.1.0 agreed with them in 3 of 5 scenarios, rules 1.2.0 in 5 of 5. Not part of a sprint. Released by the researcher from the GitHub website; both release workflow runs passed on first attempt."
     }
   ]
 }

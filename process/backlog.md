@@ -45,7 +45,7 @@ commit the change, so the board history is preserved in git.
 
 | ID | User story / change | Acceptance criteria | Status |
 |---|---|---|---|
-| C6 | **Requirement change (researcher, 29 Oct, after the full literature synthesis):** re-encode the rules to follow the revised selection framework (report Table 4.5). | Expectations for scenarios A–E written from the revised framework and committed before the rules change; rules 1.2.0 agree with them; regulation weights capped at ±1; coordination and training caveats shown for every methodology; sensitivity re-run; matrix and README updated; released as `v0.4.0`. | implemented; release pending |
+| C6 | **Requirement change (researcher, 29 Oct, after the full literature synthesis):** re-encode the rules to follow the revised selection framework (report Table 4.5). | Expectations for scenarios A–E written from the revised framework and committed before the rules change; rules 1.2.0 agree with them; regulation weights capped at ±1; coordination and training caveats shown for every methodology; sensitivity re-run; matrix and README updated; released as `v0.4.0`. | done (released as `v0.4.0`, 29 Oct) |
 
 ## Definition of done
 
