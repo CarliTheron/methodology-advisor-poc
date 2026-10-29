@@ -1,28 +1,48 @@
 {
-  "recorded_at": "2026-10-26",
-  "procedure": "Expectations were written from the report's selection framework (Table 4.5) and the supervisor's scenario descriptions, and committed BEFORE the tool was run on these scenarios. They are researcher-defined, not external: they test whether the encoded weights reproduce the evidence-based framework, not whether the framework itself is correct.",
+  "recorded_at": "2026-10-29",
+  "framework": "Report Table 4.5 as revised in the final report (selection framework after the full synthesis of 35 sources)",
+  "procedure": "Written from the revised selection framework and committed BEFORE the rules were re-encoded (change C6). The expectations used for rules v1.1.0 are kept unchanged in expectations-v1.1.json. As before, the expectations are researcher-defined and written with the same AI assistance as the rules: committing them first fixes the order, it does not make them independent. They test whether the encoded weights reproduce the framework, not whether the framework is correct.",
   "scenarios": {
     "A: small project, frequently changing requirements": {
-      "acceptable_top": ["scrum", "kanban"],
-      "basis": "Table 4.5 row 1: volatile requirements, small team -> iterative method (Scrum or Kanban). Confidence: moderate."
+      "acceptable_top": [
+        "scrum",
+        "kanban"
+      ],
+      "basis": "Row 1: volatile requirements, small team -> iterative method (Scrum or Kanban), adapted to the team's work. Confidence: moderate. Unchanged."
     },
     "B: large project, stable requirements, formal compliance": {
-      "acceptable_top": ["plan_driven", "hybrid"],
-      "basis": "Table 4.5 row 4: stable requirements, strict regulation -> plan-driven, or hybrid with documentation gates. Confidence: low (conceptual evidence only)."
+      "acceptable_top": [
+        "plan_driven",
+        "hybrid"
+      ],
+      "required_caveat_keyword": "coordination",
+      "basis": "Row 4: stable requirements, strict regulation -> plan-driven, or adapted agile or hybrid with explicit documentation, assurance and certification gates (confidence: low). Row 3: large project -> design coordination across teams whatever the approach (confidence: high), so the coordination guidance must be shown. Scrum, Kanban and Agile with DevOps would be defensible only as adapted processes for a small regulated project, not for a large one with stable requirements, so they are not accepted here."
     },
     "C: multiple distributed teams with integration dependencies": {
-      "acceptable_top": ["hybrid"],
-      "basis": "Table 4.5 row 3: large or multi-team project -> explicitly defined hybrid or scaled approach with cross-team coordination. Confidence: moderate."
+      "acceptable_top": [
+        "hybrid"
+      ],
+      "required_caveat_keyword": "coordination",
+      "basis": "Row 3: large or multi-team project -> design coordination across teams and align planning between team and programme levels, whether the approach is hybrid or scaled agile. Confidence: high. The tool has no scaled-agile option, so the defined hybrid is the only acceptable top; the coordination guidance must be shown."
     },
     "D: small team with limited methodology experience": {
-      "acceptable_top": ["scrum", "kanban", "hybrid", "plan_driven"],
-      "not_top": ["agile_devops"],
+      "acceptable_top": [
+        "scrum",
+        "kanban",
+        "hybrid",
+        "plan_driven"
+      ],
+      "not_top": [
+        "agile_devops"
+      ],
       "required_caveat_keyword": "training",
-      "basis": "Table 4.5 row 5: in any context, low maturity -> invest in training, coaching and management support; Finding 3.2: DevOps benefits are reported for mature teams, so Agile with DevOps should not be the top recommendation. The training guidance must be shown whatever the recommendation."
+      "basis": "Row 5: any context, low maturity -> invest in training, coaching, management support and change management (confidence: high). Agile with DevOps should not be the top recommendation for an inexperienced team. Unchanged."
     },
     "E: frequent releases and operational stability": {
-      "acceptable_top": ["agile_devops"],
-      "basis": "Table 4.5 row 2: frequent releases, mature team -> Agile with DevOps practices and delivery measures. Confidence: moderate."
+      "acceptable_top": [
+        "agile_devops"
+      ],
+      "basis": "Row 2: frequent releases, mature team -> Agile with DevOps practices and delivery measures. Confidence: moderate (raised from low). Unchanged."
     }
   }
 }
